@@ -4,11 +4,11 @@
 
 ## Overview
 
-This repository contains a white paper proposing **co-packaged documentation** — the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable package artifact.
+This repository contains a white paper proposing **co-packaged documentation**, the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable package artifact.
 
 ## The Problem
 
-AI coding assistants (GitHub Copilot, Claude, etc.) are transforming software development, but they operate without the contextual knowledge they need when consuming libraries. Today's packages contain code but not documentation — the docs live on websites that AI agents struggle to access and consume. This gap forces agents to rely on stale training data, producing hallucinated APIs, deprecated patterns, and incorrect usage.
+AI coding assistants (GitHub Copilot, Claude, etc.) are transforming software development, but they operate without the contextual knowledge they need when consuming libraries. Today's packages contain code but not documentation, the docs live on websites that AI agents struggle to access and consume. This gap forces agents to rely on stale training data, producing hallucinated APIs, deprecated patterns, and incorrect usage.
 
 ## The Solution
 
@@ -22,10 +22,11 @@ We propose a new industry standard:
 
 ## Why This Matters
 
-- **Correct code immediately** — AI agents use the right APIs for the installed version
-- **Offline capability** — Works in air-gapped environments, CI pipelines, restricted networks
-- **Zero configuration** — No MCP servers, no API keys, no external tools
-- **Version-matched** — Documentation always describes the exact installed version
+- **Correct code immediately:** AI agents use the right APIs for the installed version
+- **Offline capability:** Works in air-gapped environments, CI pipelines, restricted networks
+- **Zero configuration:** No MCP servers, no API keys, no external tools
+- **Version-matched:** Documentation always describes the exact installed version
+- **Tokenomics:** Shipping documentation alongside code is token-efficient
 
 ## Reference Implementation
 

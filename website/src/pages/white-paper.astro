@@ -1,0 +1,13 @@
+---
+import { getEntry, render } from 'astro:content';
+import WhitePaper from '../layouts/WhitePaper.astro';
+
+const entry = await getEntry('docs', 'white-paper');
+if (!entry) {
+  return Astro.redirect('/404');
+}
+const { Content } = await render(entry);
+---
+<WhitePaper>
+  <Content />
+</WhitePaper>

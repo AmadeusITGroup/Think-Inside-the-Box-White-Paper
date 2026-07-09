@@ -2,7 +2,7 @@
 
 ### A White Paper on Co-Packaging Code and AI-Optimized Documentation as an Industry Standard
 
-**Authors:** AI Documentation Working Group (Andres, Andrea)  
+**Authors:** AI Documentation Working Group - Andres IGEA OVIEDO (andres.igeaoviedo@amadeus.com), Andrea SCORTI (andrea.scorti@amadeus.com)  
 **Date:** 7th of July 2026  
 **Version:** 1.0
 
@@ -12,7 +12,7 @@
 
 The rapid adoption of AI coding assistants — GitHub Copilot, Claude, Codex, and others — has fundamentally changed how developers consume software libraries. Yet the ecosystem's documentation infrastructure remains anchored in a pre-AI paradigm: code ships in a package, documentation lives elsewhere. This disconnect forces AI agents to operate without the contextual knowledge they need, producing incorrect API usage, outdated patterns, and hallucinated interfaces.
 
-This paper argues for a new industry standard: **co-packaged documentation** — the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable artifact. We call this the *Think Inside the Box Principle*: everything the consumer needs arrives in one box.
+This paper argues for a new industry standard: **co-packaged documentation** — the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable artifact. We call this the _Think Inside the Box Principle_: everything the consumer needs arrives in one box.
 
 We present a reference implementation from the Design Factory design system, demonstrate that the approach works across package ecosystems (npm, pip, Maven), and propose a minimal specification that library authors can adopt today.
 
@@ -26,7 +26,7 @@ Software development is undergoing its most significant workflow transformation 
 
 These agents share a common trait: **they are only as effective as the context they can access.** An AI assistant writing React code with full access to the React documentation produces dramatically better output than one relying solely on its training data. Training data goes stale; documentation is versioned and current.
 
-Yet today, when a developer installs a library — whether via `npm install`, `pip install`, or a Maven dependency — the AI assistant working in that project receives the library's *code* but almost never its *documentation*. The documentation exists, but it lives on a website, behind a search engine, in a format optimized for human browsing rather than machine consumption.
+Yet today, when a developer installs a library — whether via `npm install`, `pip install`, or a Maven dependency — the AI assistant working in that project receives the library's _code_ but almost never its _documentation_. The documentation exists, but it lives on a website, behind a search engine, in a format optimized for human browsing rather than machine consumption.
 
 This is the gap we propose to close.
 
@@ -38,13 +38,13 @@ This is the gap we propose to close.
 
 Across every major package ecosystem, the convention is the same: **the package contains code; the documentation is hosted elsewhere.**
 
-| Ecosystem | Package Contents | Documentation Location |
-|-----------|-----------------|----------------------|
-| **npm** | JavaScript/TypeScript source, `package.json`, README | Dedicated docs site, GitHub wiki, or MDN |
-| **PyPI** | Python source, `setup.py`/`pyproject.toml`, README | Read the Docs, Sphinx-hosted site, or GitHub pages |
-| **Maven** | Compiled JARs, POM metadata | Javadoc on Maven Central, project wiki, or vendor site |
-| **NuGet** | .NET assemblies, XML doc comments | Microsoft Learn, GitHub, or custom docs portals |
-| **Crates.io** | Rust source, `Cargo.toml` | docs.rs (auto-generated) |
+| Ecosystem     | Package Contents                                     | Documentation Location                                 |
+| ------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| **npm**       | JavaScript/TypeScript source, `package.json`, README | Dedicated docs site, GitHub wiki, or MDN               |
+| **PyPI**      | Python source, `setup.py`/`pyproject.toml`, README   | Read the Docs, Sphinx-hosted site, or GitHub pages     |
+| **Maven**     | Compiled JARs, POM metadata                          | Javadoc on Maven Central, project wiki, or vendor site |
+| **NuGet**     | .NET assemblies, XML doc comments                    | Microsoft Learn, GitHub, or custom docs portals        |
+| **Crates.io** | Rust source, `Cargo.toml`                            | docs.rs (auto-generated)                               |
 
 The README file — the one piece of documentation that does travel with the package — is typically a brief overview: a logo, a one-liner description, installation instructions, and a link to "full documentation" hosted online.
 
@@ -92,21 +92,21 @@ These are not edge cases. They are the daily experience of developers using AI t
 ## 3. The Think Inside the Box Principle
 
 Some physical goods companies' success is built on a deceptively simple idea: **everything you need comes in one box.**
-For instance, when you purchase a bookcase, the box contains the panels, the shelves, the screws, the dowels, the cam locks, and — *critically* — the assembly instructions. You do not need to visit a website to look up how to assemble it. You do not need to search YouTube for a tutorial. The instructions are *right there*, designed to be consumed alongside the product, version-matched and complete.
+For instance, when you purchase a bookcase, the box contains the panels, the shelves, the screws, the dowels, the cam locks, and — _critically_ — the assembly instructions. You do not need to visit a website to look up how to assemble it. You do not need to search YouTube for a tutorial. The instructions are _right there_, designed to be consumed alongside the product, version-matched and complete.
 
 This principle has a direct analog in software:
 
-> **Think Inside the Box for Software Libraries:** A package should contain everything an agent needs to correctly use the library — the code *and* its documentation — in the same distributable artifact.
+> **Think Inside the Box for Software Libraries:** A package should contain everything an agent needs to correctly use the library — the code _and_ its documentation — in the same distributable artifact.
 
 The analogy is precise:
 
-| Physical goods company | Software Library |
-|------|-----------------|
-| Product (panels, shelves) | Source code, compiled artifacts |
-| Assembly and usage instructions | API docs, usage guides, examples |
-| The box | The package (npm tarball, wheel, JAR) |
-| The customer | The AI coding agent |
-| The store | The package registry (npm, PyPI, Maven Central) |
+| Physical goods company          | Software Library                                |
+| ------------------------------- | ----------------------------------------------- |
+| Product (panels, shelves)       | Source code, compiled artifacts                 |
+| Assembly and usage instructions | API docs, usage guides, examples                |
+| The box                         | The package (npm tarball, wheel, JAR)           |
+| The customer                    | The AI coding agent                             |
+| The store                       | The package registry (npm, PyPI, Maven Central) |
 
 Just as instructions from newly purchased furniture are designed for the person assembling it and using it — not the designer who created it — co-packaged documentation should be designed for the agent consuming the library, not the author who wrote it.
 
@@ -174,7 +174,6 @@ Several decisions in the Design Factory implementation reflect principles that a
 
 A natural objection is: "Wouldn't it be better to expose documentation through an MCP server, a dedicated tool, or a documentation API?" We argue that static files should be the foundation, and the reasoning is pragmatic.
 
-
 ### 5.1 Against MCP Servers for Documentation
 
 The Model Context Protocol (MCP) allows AI agents to call external tools during a conversation. An MCP server for a library could offer tools like `get_component_docs(name)` or `search_api(query)`. However we have to highlight the following disadvantages:
@@ -182,7 +181,7 @@ The Model Context Protocol (MCP) allows AI agents to call external tools during 
 - **Context pollution:** Every MCP server injects its tool schemas into the system prompt, consuming context window space on every conversation — even those unrelated to the library.
 - **Round-trip overhead:** Each MCP tool call requires the agent to decide to call, format the request, wait for the response, and parse the result. File reads are a primitive every agent already has.
 - **Operational burden:** An MCP server requires installation, configuration, and a running process. Markdown files in the package require nothing.
-- **MCP is for operations, not reference.** MCP excels when the agent needs to *do* things — query a database, manipulate a design tool. Reading documentation is retrieval, not action. The agent already knows how to read files.
+- **MCP is for operations, not reference.** MCP excels when the agent needs to _do_ things — query a database, manipulate a design tool. Reading documentation is retrieval, not action. The agent already knows how to read files.
 
 ### 5.2 Against Skills and Prompt Templates
 
@@ -193,7 +192,7 @@ Skills (pre-written prompt expansions) inject multi-step workflows when triggere
 - **Decentralized and duplicative.** Skills and prompt templates are typically authored by individual teams or companies independently, leading to redundant efforts across the ecosystem. Multiple organizations end up writing overlapping instructions for the same library, each with slightly different interpretations and quality levels. Worse, these community-maintained templates have no built-in mechanism to stay synchronized with the library they describe — when the library ships a new version with API changes, the scattered skills and templates across dozens of teams go stale silently. Co-packaged documentation eliminates this duplication by placing the authoritative instructions at the source: the library author maintains one set of docs, and every consumer receives it automatically on install.
 - **Probabilistic retrieval is not engineering.** Documentation retrieval should not be left to probability. When an agent fails to trigger a skill, or uses it incorrectly, the resulting error compounds: the agent generates incorrect code, the developer corrects it, the agent misinterprets the correction, and the cycle spirals. Co-packaged documentation eliminates the dice roll entirely - the docs are there deterministically, alongside the code they describe. Engineering demands certainty of access, not optimistic hope that correct retrieval will happen.
 - **Computationally expensive.** Running an AI agent is not free. Every failed generation, every correction cycle, every re-prompt consumes tokens — and tokens cost money. Skills that sometimes fire and sometimes don't create a tax on every interaction: the agent burns compute attempting to determine relevance, potentially retrieves the wrong skill, generates incorrect output, and then must be corrected. In the case of correct skill identification, the probabilistic nature of AI models does not guarantee successful retrieval of relevant documentation creating unnecessary overhead costs.
-Co-packaged documentation, read directly from the filesystem, is the cheapest possible retrieval mechanism. Why make software engineering more expensive than it needs to be by introducing probabilistic middleware between the agent and the knowledge it requires?
+  Co-packaged documentation, read directly from the filesystem, is the cheapest possible retrieval mechanism. Why make software engineering more expensive than it needs to be by introducing probabilistic middleware between the agent and the knowledge it requires?
 - **Distribution and logistics repeat history.** Who maintains the skills? Who distributes them? Who ensures they stay current across versions? This is the DefinitelyTyped story replaying in real time. The TypeScript community learned — painfully, over years — that community-maintained type definitions maintained separately from the library source inevitably drift, decay, and fragment. Skills and prompt templates face the identical fate: scattered across repositories, maintained by volunteers with varying commitment, silently stale when the library ships a breaking change. The ecosystem already lived through this with `@types/` packages. Co-packaged documentation is the lesson learned: ship it at the source, version it with the code, and eliminate the logistical nightmare of distributed, decoupled maintenance.
 
 ### 5.3 Against Sub-Agents
@@ -215,7 +214,7 @@ The simplest delivery mechanism is also the most robust: files shipped in the pa
 The incremental cost of co-packaging documentation is low:
 
 - **If documentation already exists** (which it does for any established library), the work involves building a transformation pipeline that converts existing docs into AI-friendly structured markdown and integrating it into the build process. This is a **one-time investment** — typically days to weeks of engineering effort, depending on how structured and consistent the existing documentation is.
-Libraries with well-organized docs (e.g., generated from JSDoc/Javadoc/Sphinx with consistent templates) will find this straightforward. Libraries with documentation scattered across READMEs, wikis, blog posts, and inline comments will face a harder path, potentially requiring documentation restructuring before the AI transformation pipeline can be effective.
+  Libraries with well-organized docs (e.g., generated from JSDoc/Javadoc/Sphinx with consistent templates) will find this straightforward. Libraries with documentation scattered across READMEs, wikis, blog posts, and inline comments will face a harder path, potentially requiring documentation restructuring before the AI transformation pipeline can be effective.
 - **Ongoing maintenance is zero** — if the pipeline generates from the existing documentation source of truth. The AI docs update automatically when the human docs update.
 - **Package size increase is modest.** Markdown is lightweight. The entire Design Factory `.ai/` folder — covering 56 components with APIs, examples, guidelines, and demos — compresses to a fraction of the size of a typical `node_modules` tree. For most libraries, the documentation would add less than the size of a single source map file.
 
@@ -258,7 +257,7 @@ package-root/
 │   ├── index.md            # What the library provides - describes the docs folder structure
 │   ├── getting-started.md  # Quick start guide
 │   └── lib-dir/            # Library specific directory
-│   │   └── ...           
+│   │   └── ...
 │   └── lib-dir-two/
 │       └── ...             # Structured documentation files
 ├── src/                    # (or lib/, dist/, etc.)
@@ -267,7 +266,7 @@ package-root/
 
 ### 7.2 README File
 
-Every `docs/` directory MUST contain a README.md file that serves as the entry point. 
+Every `docs/` directory MUST contain a README.md file that serves as the entry point.
 
 This file SHOULD describe the 5 Ws (What, When, Why, Where and HoW). This should allow an AI agent to get an overview of the library and reassure itself that it is indeed in the correct directory for the task it is trying to complete.
 
@@ -324,13 +323,13 @@ The standard acknowledges that no single instruction file convention (`AGENTS.md
 
 ### 7.6 Ecosystem-Specific Packaging
 
-| Ecosystem | Include `docs/` via |
-|-----------|-------------------|
-| **npm** | `"files"` field in `package.json` or `.npmignore` exclusion removal |
-| **PyPI** | `package_data` or `data_files` in `setup.py` / `pyproject.toml` |
-| **Maven** | Resource directory inclusion in `pom.xml` |
-| **NuGet** | Content files in `.nuspec` or `<Content>` items in `.csproj` |
-| **Crates.io** | `include` field in `Cargo.toml` |
+| Ecosystem     | Include `docs/` via                                                 |
+| ------------- | ------------------------------------------------------------------- |
+| **npm**       | `"files"` field in `package.json` or `.npmignore` exclusion removal |
+| **PyPI**      | `package_data` or `data_files` in `setup.py` / `pyproject.toml`     |
+| **Maven**     | Resource directory inclusion in `pom.xml`                           |
+| **NuGet**     | Content files in `.nuspec` or `<Content>` items in `.csproj`        |
+| **Crates.io** | `include` field in `Cargo.toml`                                     |
 
 ### 7.7 Generation, Not Duplication
 
@@ -342,7 +341,7 @@ The standard **RECOMMENDS** generating `docs/` documentation from the library's 
 
 **A note on documentation maturity.** This recommendation assumes that the library's existing documentation is reasonably structured and complete. In practice, documentation quality varies enormously. Libraries with well-organized, template-based docs (generated from JSDoc, Javadoc, Sphinx, or similar tools) will find generation straightforward. Libraries with informal or scattered documentation may need to invest in documentation restructuring before a generation pipeline is viable.
 
-The standard does not require perfection. Shipping *partial* AI-optimized documentation — even just an API reference generated from type definitions or doc comments — is better than shipping none. Libraries can adopt incrementally, expanding coverage over time.
+The standard does not require perfection. Shipping _partial_ AI-optimized documentation — even just an API reference generated from type definitions or doc comments — is better than shipping none. Libraries can adopt incrementally, expanding coverage over time.
 
 ---
 
@@ -363,7 +362,7 @@ The primary threat is a **malicious or compromised package** that includes `docs
 
 **For AI tool vendors:**
 
-- **Sandboxed documentation context.** Agents **SHOULD** treat `docs/` content as *reference material*, not as *system instructions*. Documentation should inform the agent's understanding of an API but should not be able to override user instructions, project-level configuration, or the agent's safety policies. This is analogous to how agents treat source code: they read it for context but do not execute arbitrary commands found in code comments.
+- **Sandboxed documentation context.** Agents **SHOULD** treat `docs/` content as _reference material_, not as _system instructions_. Documentation should inform the agent's understanding of an API but should not be able to override user instructions, project-level configuration, or the agent's safety policies. This is analogous to how agents treat source code: they read it for context but do not execute arbitrary commands found in code comments.
 - **Content provenance signals.** When an agent reads `docs/` content, it should annotate the context with the source package name and version, enabling the user (and the agent's safety layer) to distinguish between trusted project-level instructions and third-party documentation.
 - **Scope limitation.** Documentation from a dependency's `docs/` folder should only influence the agent's behavior when working with that specific dependency's APIs. It should not be able to affect code generation for unrelated parts of the project.
 
@@ -379,7 +378,7 @@ The primary threat is a **malicious or compromised package** that includes `docs
 
 ### 8.3 Risk Assessment
 
-The prompt injection risk for co-packaged documentation is **real but bounded**. It is comparable in nature — though not in severity — to the existing risk of malicious code in dependencies (supply chain attacks). Developers already accept the risk of running third-party code; co-packaged documentation adds a surface for *influencing* AI-generated code, which is a lower-severity vector than arbitrary code execution.
+The prompt injection risk for co-packaged documentation is **real but bounded**. It is comparable in nature — though not in severity — to the existing risk of malicious code in dependencies (supply chain attacks). Developers already accept the risk of running third-party code; co-packaged documentation adds a surface for _influencing_ AI-generated code, which is a lower-severity vector than arbitrary code execution.
 
 The mitigations above reduce the risk to an acceptable level when combined with existing supply chain security practices (lockfiles, dependency auditing, package provenance). The standard acknowledges this risk explicitly and recommends that AI tool vendors treat third-party `docs/` content with appropriate skepticism — as context, not as commands.
 
@@ -399,7 +398,7 @@ The documentation is a rounding error in package size while providing outsized v
 
 ### 9.2 "Documentation goes stale."
 
-Only if maintained separately. The standard explicitly recommends *generating* AI-friendly docs from the same source that produces human-facing documentation. When the library updates and the human docs update, the AI-optimized docs update in the same build pipeline. Staleness is a process problem, not an architectural one.
+Only if maintained separately. The standard explicitly recommends _generating_ AI-friendly docs from the same source that produces human-facing documentation. When the library updates and the human docs update, the AI-optimized docs update in the same build pipeline. Staleness is a process problem, not an architectural one.
 
 ### 9.3 "My library already has good docs on our website."
 
@@ -407,11 +406,11 @@ Website-hosted documentation is optimized for human consumption: rich formatting
 
 ### 9.4 "AI models already know about popular libraries from training data."
 
-Training data has a cutoff date. Every library release after that date is invisible to the model. Even for well-known libraries, the agent may confuse APIs across versions, hallucinate deprecated methods, or miss new features. Co-packaged docs provide ground truth for the *exact version installed*.
+Training data has a cutoff date. Every library release after that date is invisible to the model. Even for well-known libraries, the agent may confuse APIs across versions, hallucinate deprecated methods, or miss new features. Co-packaged docs provide ground truth for the _exact version installed_.
 
 ### 9.5 "Can't the AI just read the source code?"
 
-Source code tells the agent *what* exists but not *how to use it correctly.* It doesn't convey design intent, usage guidelines, do/don't rules, accessibility requirements, or idiomatic patterns. Documentation is the bridge between "what the code does" and "how to use it well."
+Source code tells the agent _what_ exists but not _how to use it correctly._ It doesn't convey design intent, usage guidelines, do/don't rules, accessibility requirements, or idiomatic patterns. Documentation is the bridge between "what the code does" and "how to use it well."
 
 ### 9.6 "This doesn't scale to deep dependency graphs."
 
@@ -506,7 +505,7 @@ The separation of code and documentation made sense when the documentation consu
 
 The Think Inside the Box Principle — everything in one box — is a proven model for product delivery. Applied to software libraries, it means shipping structured, AI-optimized documentation alongside the code in the same package artifact. The benefits are significant (more accurate AI-generated code, version-matched docs, offline capability) and the costs are negligible (markdown is small, generation pipelines are automatable).
 
-This paper claims that the direction towards shipping code and documentation in one box is the right path forward, that the timing is urgent, and the entry bar is low enough for immediate adoption. 
+This paper claims that the direction towards shipping code and documentation in one box is the right path forward, that the timing is urgent, and the entry bar is low enough for immediate adoption.
 Design Factory demonstrates that the approach works in their preliminary testing today and are ready to continue shipping co-packaged AI-optimized documentation in the near future. The patterns it established — a directory with an entry point, structured markdown files, generated-not-maintained documentation, and layered discovery mechanisms (standard agent instructions) — generalize cleanly across ecosystems.
 
 We are at an inflection point. The ecosystem moved from "types are someone else's problem" to "types ship with the package." The same shift is beginning for AI-optimized documentation. The question is not **whether** libraries will ship AI-optimized docs, but **how quickly** the ecosystem converges on a standard for doing so.
@@ -520,7 +519,7 @@ This paper proposes that standard. We invite library authors, package registry m
 ## References
 
 1. Design Factory AI Documentation Architecture — [Internal technical documentation, 2026.](https://github.com/Amadeus-xDLC/design-factory.design-system/blob/main/doc/AI/README.md)
-2. Model Context Protocol (MCP) Specification — [Anthropic, 2025.](https://modelcontextprotocol.io/specification/2025-11-25)           
+2. Model Context Protocol (MCP) Specification — [Anthropic, 2025.](https://modelcontextprotocol.io/specification/2025-11-25)
 3. `AGENTS.md` Convention — [Emerging multi-tool convention for AI coding agent instructions.](https://github.com/Amadeus-xDLC/design-factory.design-system/blob/main/doc/AI/README.md)
 4. DefinitelyTyped — [Community-maintained TypeScript type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped)
 5. OWASP LLM Top 10 — [Prompt Injection risks in LLM applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
@@ -531,4 +530,4 @@ This paper proposes that standard. We invite library authors, package registry m
 
 ---
 
-*This white paper is released for public discussion. We welcome contributions, critiques, and adoption reports from the software engineering community.*
+_This white paper is released for public discussion. We welcome contributions, critiques, and adoption reports from the software engineering community._

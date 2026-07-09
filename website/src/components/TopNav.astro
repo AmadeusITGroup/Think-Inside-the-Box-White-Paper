@@ -1,0 +1,166 @@
+---
+interface Props {
+	metaText?: string;
+}
+
+const { metaText = 'White Paper · v1.0 · July 2026' } = Astro.props;
+---
+
+<nav class="top-nav">
+	<div class="top-nav-inner">
+		<a class="top-nav-title" href="/">Think Inside the Box</a>
+		<div class="top-nav-links">
+			{metaText && <span class="top-nav-meta">{metaText}</span>}
+			<button id="theme-toggle" class="top-nav-theme-toggle" type="button" aria-label="Toggle dark mode">
+				<svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path d="M12 7.75a4.25 4.25 0 1 0 0 8.5 4.25 4.25 0 0 0 0-8.5ZM12 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 2Zm0 17a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 19Zm10-7.75a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1 0-1.5H22ZM4.25 12a.75.75 0 0 1-.75.75H2a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75Zm12.5-6.25a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 1 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06Zm-10.56 10.56a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06Zm12.68 1.06a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0ZM8.31 6.81a.75.75 0 0 1 0 1.06L7.25 8.93a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0Z" fill="currentColor"></path>
+				</svg>
+				<svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path d="M14.9 2.1a.75.75 0 0 1 .8.96A8.48 8.48 0 0 0 15.25 6c0 4.56 3.69 8.25 8.25 8.25.98 0 1.93-.17 2.82-.49a.75.75 0 0 1 .95.86A10.5 10.5 0 1 1 14.9 2.1ZM4 12.25a9 9 0 0 0 16.95 4.17c-.24.02-.46.03-.7.03A9.75 9.75 0 0 1 10.5 6.7c0-.22.01-.45.03-.67A8.96 8.96 0 0 0 4 12.25Z" fill="currentColor"></path>
+				</svg>
+			</button>
+			<a
+				class="top-nav-github"
+				href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper"
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label="View repository on GitHub"
+			>
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path
+						d="M12 .5A11.5 11.5 0 0 0 .5 12.21c0 5.14 3.28 9.49 7.83 11.03.58.11.79-.26.79-.57 0-.28-.01-1.2-.02-2.18-3.18.71-3.85-1.38-3.85-1.38-.52-1.36-1.27-1.72-1.27-1.72-1.04-.73.08-.71.08-.71 1.15.08 1.76 1.22 1.76 1.22 1.02 1.81 2.68 1.29 3.33.99.1-.76.4-1.29.73-1.59-2.54-.3-5.2-1.31-5.2-5.82 0-1.29.45-2.34 1.2-3.16-.12-.3-.52-1.51.11-3.14 0 0 .98-.32 3.21 1.21a10.93 10.93 0 0 1 5.84 0c2.23-1.53 3.21-1.21 3.21-1.21.63 1.63.23 2.84.11 3.14.75.82 1.2 1.87 1.2 3.16 0 4.53-2.67 5.51-5.22 5.81.41.36.78 1.07.78 2.17 0 1.57-.01 2.84-.01 3.22 0 .31.21.69.8.57a11.53 11.53 0 0 0 7.81-11.03A11.5 11.5 0 0 0 12 .5Z"
+						fill="currentColor"
+					></path>
+				</svg>
+			</a>
+		</div>
+	</div>
+</nav>
+
+<script is:inline>
+	(() => {
+		const root = document.documentElement;
+		const button = document.getElementById('theme-toggle');
+		if (!button) return;
+
+		const updateLabel = () => {
+			const dark = root.dataset.theme === 'dark';
+			button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+		};
+
+		button.addEventListener('click', () => {
+			const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+			root.dataset.theme = next;
+			try {
+				localStorage.setItem('theme', next);
+			} catch {
+				// Ignore storage errors and keep in-memory theme.
+			}
+			updateLabel();
+		});
+
+		updateLabel();
+	})();
+</script>
+
+<style is:global>
+	.top-nav {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		height: 56px;
+		background: color-mix(in srgb, var(--bg, var(--color-bg)) 90%, transparent);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border-bottom: 1px solid var(--border, var(--color-border));
+	}
+
+	.top-nav-inner {
+		box-sizing: border-box;
+		width: min(100%, var(--max-width, 860px));
+		max-width: none;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.top-nav-title {
+		text-decoration: none;
+		font-weight: 700;
+		font-size: 0.95rem;
+		color: var(--text, var(--color-text));
+		white-space: nowrap;
+	}
+
+	.top-nav-links {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.top-nav-meta {
+		font-size: 0.8rem;
+		color: var(--text-muted, var(--color-text-muted));
+		white-space: nowrap;
+	}
+
+	.top-nav-theme-toggle,
+	.top-nav-github {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.95rem;
+		height: 1.95rem;
+		border-radius: 999px;
+		border: 1px solid var(--border, var(--color-border));
+		background: var(--surface, var(--color-surface));
+		color: var(--text, var(--color-text));
+		padding: 0;
+	}
+
+	.top-nav-theme-toggle {
+		cursor: pointer;
+	}
+
+	.top-nav-theme-toggle:hover,
+	.top-nav-github:hover {
+		color: var(--accent-strong, var(--color-accent-strong));
+		border-color: var(--accent, var(--color-accent));
+	}
+
+	.top-nav-theme-toggle svg,
+	.top-nav-github svg {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	.top-nav-theme-toggle .icon-sun {
+		display: none;
+	}
+
+	:root[data-theme='dark'] .top-nav-theme-toggle .icon-sun {
+		display: block;
+	}
+
+	:root[data-theme='dark'] .top-nav-theme-toggle .icon-moon {
+		display: none;
+	}
+
+	@media (max-width: 640px) {
+		.top-nav-inner {
+			padding: 0 1rem;
+		}
+
+		.top-nav-meta {
+			display: none;
+		}
+
+		.top-nav-title {
+			font-size: 0.95rem;
+		}
+	}
+</style>

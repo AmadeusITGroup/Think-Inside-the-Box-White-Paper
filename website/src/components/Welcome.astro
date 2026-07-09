@@ -1,0 +1,244 @@
+---
+import heroImage from '../assets/hero-v2.webp';
+---
+
+<section class="hero">
+	<div class="hero-background" aria-hidden="true">
+		<img src={heroImage.src} alt="" loading="eager" />
+	</div>
+	<div class="hero-content">
+		<p class="eyebrow">Think Inside the Box</p>
+		<h1>Co-packaging code and AI-ready documentation as an industry standard</h1>
+		<p class="summary">
+			AI coding assistants work best when they can read version-matched documentation from local
+			files. This white paper proposes a practical standard where libraries ship structured,
+			agent-friendly docs alongside their code.
+		</p>
+		<div class="actions">
+			<a class="button button-primary" href="/white-paper">
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path
+						d="M4 5.75A2.75 2.75 0 0 1 6.75 3H19a1 1 0 0 1 1 1v13.25A2.75 2.75 0 0 1 17.25 20H6.75A2.75 2.75 0 0 1 4 17.25V5.75Zm2.75-.75A.75.75 0 0 0 6 5.75V17.25c0 .414.336.75.75.75H16.5v-2.25a2.75 2.75 0 0 1 2.75-2.75H18V5H6.75Zm11.75 9.5h.75a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-.75.75h-.75a1.25 1.25 0 0 1 0-2.5Z"
+						fill="currentColor"
+					></path>
+				</svg>
+				<span>Read white paper</span>
+			</a>
+			<a
+				class="button button-secondary"
+				href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+					<path
+						d="M12 .5A11.5 11.5 0 0 0 .5 12.21c0 5.14 3.28 9.49 7.83 11.03.58.11.79-.26.79-.57 0-.28-.01-1.2-.02-2.18-3.18.71-3.85-1.38-3.85-1.38-.52-1.36-1.27-1.72-1.27-1.72-1.04-.73.08-.71.08-.71 1.15.08 1.76 1.22 1.76 1.22 1.02 1.81 2.68 1.29 3.33.99.1-.76.4-1.29.73-1.59-2.54-.3-5.2-1.31-5.2-5.82 0-1.29.45-2.34 1.2-3.16-.12-.3-.52-1.51.11-3.14 0 0 .98-.32 3.21 1.21a10.93 10.93 0 0 1 5.84 0c2.23-1.53 3.21-1.21 3.21-1.21.63 1.63.23 2.84.11 3.14.75.82 1.2 1.87 1.2 3.16 0 4.53-2.67 5.51-5.22 5.81.41.36.78 1.07.78 2.17 0 1.57-.01 2.84-.01 3.22 0 .31.21.69.8.57a11.53 11.53 0 0 0 7.81-11.03A11.5 11.5 0 0 0 12 .5Z"
+						fill="currentColor"
+					></path>
+				</svg>
+				<span>View it on GitHub</span>
+			</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		isolation: isolate;
+		max-width: 860px;
+		margin: 0 auto;
+		padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(5rem, 10vw, 8rem);
+		overflow: hidden;
+	}
+
+	.hero::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(
+			90deg,
+			var(--bg) 0%,
+			color-mix(in srgb, var(--bg) 20%, transparent) 10%,
+			transparent 24%,
+			transparent 76%,
+			color-mix(in srgb, var(--bg) 20%, transparent) 90%,
+			var(--bg) 100%
+		),
+		linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--bg) 6%, transparent) 0%,
+			color-mix(in srgb, var(--bg) 24%, transparent) 48%,
+			color-mix(in srgb, var(--bg) 52%, transparent) 100%
+		);
+	}
+
+	.hero::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -1px;
+		height: clamp(96px, 18vw, 160px);
+		z-index: -1;
+		background: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--bg) 0%, transparent) 0%,
+			color-mix(in srgb, var(--bg) 64%, transparent) 64%,
+			var(--bg) 100%
+		);
+	}
+
+	.hero-background {
+		position: absolute;
+		inset: -2% -6% 0;
+		z-index: -2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0.5;
+	}
+
+	.hero-background img {
+		display: block;
+		width: min(118%, 980px);
+		max-width: none;
+		height: auto;
+		object-fit: cover;
+		object-position: center;
+		filter: saturate(1.08) contrast(1.05) brightness(0.98);
+		mix-blend-mode: normal;
+	}
+
+	.hero-content {
+		position: relative;
+		z-index: 1;
+	}
+
+	.eyebrow {
+		margin: 0;
+		font-size: 0.875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--accent);
+	}
+
+	h1 {
+		margin: 1rem 0 0;
+		font-size: clamp(2rem, 5vw, 3.25rem);
+		line-height: 1.12;
+		letter-spacing: -0.02em;
+		color: var(--text);
+		max-width: 20ch;
+		text-wrap: balance;
+		text-shadow: 0 1px 0 color-mix(in srgb, var(--bg) 78%, transparent),
+			0 8px 24px color-mix(in srgb, var(--bg) 30%, transparent);
+	}
+
+	.summary {
+		margin: 1.5rem 0 0;
+		font-size: 1.125rem;
+		line-height: 1.8;
+		max-width: 70ch;
+		color: color-mix(in srgb, var(--text) 84%, var(--bg));
+		text-shadow: 0 1px 0 color-mix(in srgb, var(--bg) 72%, transparent);
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 2rem;
+	}
+
+	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.72rem 1.2rem;
+		border-radius: 0.6rem;
+		font-weight: 600;
+		text-decoration: none;
+		transition: transform 0.12s ease, box-shadow 0.12s ease, color 0.12s ease;
+	}
+
+	.button svg {
+		width: 1.05rem;
+		height: 1.05rem;
+		flex-shrink: 0;
+	}
+
+	.button:hover {
+		transform: translateY(-1px);
+	}
+
+	.button-primary {
+		background: var(--text);
+		color: var(--bg);
+		box-shadow: 0 6px 14px rgba(15, 23, 42, 0.28);
+	}
+
+	.button-primary:hover {
+		color: var(--bg);
+		box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+	}
+
+	.button-secondary {
+		border: 1px solid var(--border);
+		color: var(--text);
+		background: var(--surface);
+	}
+
+	.button-secondary:hover {
+		color: var(--accent-strong);
+		border-color: var(--accent);
+	}
+
+	@media (max-width: 640px) {
+		.hero {
+			padding: 2.35rem 1rem 5rem;
+		}
+
+		.hero-background {
+			inset: -1% -14% 0;
+			opacity: 0.44;
+		}
+
+		.hero-background img {
+			width: min(136%, 900px);
+		}
+
+		h1 {
+			font-size: clamp(1.85rem, 8.3vw, 2.45rem);
+		}
+
+		.summary {
+			font-size: 1rem;
+		}
+
+		.button {
+			width: 100%;
+		}
+	}
+
+	:root[data-theme='dark'] .hero-background {
+		opacity: 0.36;
+	}
+
+	:root[data-theme='dark'] .hero-background img {
+		mix-blend-mode: normal;
+		filter: saturate(1.02) contrast(1.04) brightness(0.86);
+	}
+
+	:root[data-theme='dark'] .hero::before {
+		background: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--bg) 18%, transparent) 0%,
+			color-mix(in srgb, var(--bg) 62%, transparent) 50%,
+			color-mix(in srgb, var(--bg) 88%, transparent) 100%
+		);
+	}
+</style>

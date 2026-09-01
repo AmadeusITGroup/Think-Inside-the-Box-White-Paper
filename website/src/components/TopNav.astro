@@ -8,7 +8,7 @@ const { metaText = 'White Paper · v1.0 · July 2026' } = Astro.props;
 
 <nav class="top-nav">
 	<div class="top-nav-inner">
-		<a class="top-nav-title" href="/">Think Inside the Box</a>
+		<a class="top-nav-title" href={import.meta.env.BASE_URL}>Think Inside the Box</a>
 		<div class="top-nav-links">
 			{metaText && <span class="top-nav-meta">{metaText}</span>}
 			<button id="theme-toggle" class="top-nav-theme-toggle" type="button" aria-label="Toggle dark mode">

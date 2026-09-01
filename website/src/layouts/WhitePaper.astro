@@ -9,8 +9,8 @@ const title = frontmatter?.title ?? 'Think Inside the Box — White Paper';
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content="Think Inside the Box for Software Libraries — A White Paper on Co-Packaging Code and AI-Optimized Documentation as an Industry Standard" />
 		<title>{title}</title>

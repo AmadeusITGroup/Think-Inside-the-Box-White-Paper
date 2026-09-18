@@ -1,64 +1,129 @@
 ---
 import heroImage from '../assets/hero-v2.webp';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <section class="hero">
-	<div class="hero-background" aria-hidden="true">
+	<div class="hero-bg" aria-hidden="true">
 		<img src={heroImage.src} alt="" loading="eager" />
 	</div>
-	<div class="hero-content">
-		<p class="eyebrow">Think Inside the Box</p>
-		<h1>Co-packaging code and AI-ready documentation as an industry standard</h1>
-		<p class="summary">
-			AI coding assistants work best when they can read version-matched documentation from local
-			files. This white paper proposes a practical standard where libraries ship structured,
-			agent-friendly docs alongside their code.
-		</p>
-		<div class="actions">
-			<a class="button button-primary" href={`${import.meta.env.BASE_URL}overview`}>
-				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-					<path
-						d="M10.5 3a.75.75 0 0 1 .7.51l1.33 3.6 3.6 1.33a.75.75 0 0 1 0 1.42l-3.6 1.33-1.33 3.6a.75.75 0 0 1-1.4 0l-1.33-3.6-3.6-1.33a.75.75 0 0 1 0-1.42l3.6-1.33 1.33-3.6a.75.75 0 0 1 .7-.51ZM17 13.5a.75.75 0 0 1 .7.51l.8 2.16 2.16.8a.75.75 0 0 1 0 1.42l-2.16.8-.8 2.16a.75.75 0 0 1-1.4 0l-.8-2.16-2.16-.8a.75.75 0 0 1 0-1.42l2.16-.8.8-2.16a.75.75 0 0 1 .7-.51ZM5.75 15a.75.75 0 0 1 .7.51l.53 1.44 1.44.53a.75.75 0 0 1 0 1.42l-1.44.53-.53 1.44a.75.75 0 0 1-1.4 0l-.53-1.44-1.44-.53a.75.75 0 0 1 0-1.42l1.44-.53.53-1.44a.75.75 0 0 1 .7-.51Z"
-						fill="currentColor"
-					></path>
-				</svg>
-				<span>Overview of white paper</span>
-			</a>
-			<a class="button button-secondary" href={`${import.meta.env.BASE_URL}white-paper`}>
-				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-					<path
-						d="M4 5.75A2.75 2.75 0 0 1 6.75 3H19a1 1 0 0 1 1 1v13.25A2.75 2.75 0 0 1 17.25 20H6.75A2.75 2.75 0 0 1 4 17.25V5.75Zm2.75-.75A.75.75 0 0 0 6 5.75V17.25c0 .414.336.75.75.75H16.5v-2.25a2.75 2.75 0 0 1 2.75-2.75H18V5H6.75Zm11.75 9.5h.75a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-.75.75h-.75a1.25 1.25 0 0 1 0-2.5Z"
-						fill="currentColor"
-					></path>
-				</svg>
-				<span>Read white paper</span>
-			</a>
-			<a
-				class="button button-secondary"
-				href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper"
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-					<path
-						d="M12 .5A11.5 11.5 0 0 0 .5 12.21c0 5.14 3.28 9.49 7.83 11.03.58.11.79-.26.79-.57 0-.28-.01-1.2-.02-2.18-3.18.71-3.85-1.38-3.85-1.38-.52-1.36-1.27-1.72-1.27-1.72-1.04-.73.08-.71.08-.71 1.15.08 1.76 1.22 1.76 1.22 1.02 1.81 2.68 1.29 3.33.99.1-.76.4-1.29.73-1.59-2.54-.3-5.2-1.31-5.2-5.82 0-1.29.45-2.34 1.2-3.16-.12-.3-.52-1.51.11-3.14 0 0 .98-.32 3.21 1.21a10.93 10.93 0 0 1 5.84 0c2.23-1.53 3.21-1.21 3.21-1.21.63 1.63.23 2.84.11 3.14.75.82 1.2 1.87 1.2 3.16 0 4.53-2.67 5.51-5.22 5.81.41.36.78 1.07.78 2.17 0 1.57-.01 2.84-.01 3.22 0 .31.21.69.8.57a11.53 11.53 0 0 0 7.81-11.03A11.5 11.5 0 0 0 12 .5Z"
-						fill="currentColor"
-					></path>
-				</svg>
-				<span>View it on GitHub</span>
-			</a>
+	<div class="wrap hero-grid">
+		<div class="hero-copy">
+			<p class="eyebrow">Think Inside the Box</p>
+			<h1>Co-packaged code and AI-ready docs, <span class="grad">in one box.</span></h1>
+			<p class="lede">
+				AI coding assistants work best when they can read version-matched documentation from
+				local files. This white paper proposes a practical standard where libraries ship
+				structured, agent-friendly docs alongside their code.
+			</p>
+			<div class="cta-row">
+				<a class="btn btn-primary" href={`${base}overview`}>
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path
+							d="M10.5 3a.75.75 0 0 1 .7.51l1.33 3.6 3.6 1.33a.75.75 0 0 1 0 1.42l-3.6 1.33-1.33 3.6a.75.75 0 0 1-1.4 0l-1.33-3.6-3.6-1.33a.75.75 0 0 1 0-1.42l3.6-1.33 1.33-3.6a.75.75 0 0 1 .7-.51ZM17 13.5a.75.75 0 0 1 .7.51l.8 2.16 2.16.8a.75.75 0 0 1 0 1.42l-2.16.8-.8 2.16a.75.75 0 0 1-1.4 0l-.8-2.16-2.16-.8a.75.75 0 0 1 0-1.42l2.16-.8.8-2.16a.75.75 0 0 1 .7-.51ZM5.75 15a.75.75 0 0 1 .7.51l.53 1.44 1.44.53a.75.75 0 0 1 0 1.42l-1.44.53-.53 1.44a.75.75 0 0 1-1.4 0l-.53-1.44-1.44-.53a.75.75 0 0 1 0-1.42l1.44-.53.53-1.44a.75.75 0 0 1 .7-.51Z"
+							fill="currentColor"
+						></path>
+					</svg>
+					<span>Overview</span>
+				</a>
+				<a class="btn btn-ghost" href={`${base}white-paper`}>
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path
+							d="M4 5.75A2.75 2.75 0 0 1 6.75 3H19a1 1 0 0 1 1 1v13.25A2.75 2.75 0 0 1 17.25 20H6.75A2.75 2.75 0 0 1 4 17.25V5.75Zm2.75-.75A.75.75 0 0 0 6 5.75V17.25c0 .414.336.75.75.75H16.5v-2.25a2.75 2.75 0 0 1 2.75-2.75H18V5H6.75Zm11.75 9.5h.75a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-.75.75h-.75a1.25 1.25 0 0 1 0-2.5Z"
+							fill="currentColor"
+						></path>
+					</svg>
+					<span>Read white paper</span>
+				</a>
+				<a
+					class="btn btn-ghost"
+					href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path
+							d="M12 .5A11.5 11.5 0 0 0 .5 12.21c0 5.14 3.28 9.49 7.83 11.03.58.11.79-.26.79-.57 0-.28-.01-1.2-.02-2.18-3.18.71-3.85-1.38-3.85-1.38-.52-1.36-1.27-1.72-1.27-1.72-1.04-.73.08-.71.08-.71 1.15.08 1.76 1.22 1.76 1.22 1.02 1.81 2.68 1.29 3.33.99.1-.76.4-1.29.73-1.59-2.54-.3-5.2-1.31-5.2-5.82 0-1.29.45-2.34 1.2-3.16-.12-.3-.52-1.51.11-3.14 0 0 .98-.32 3.21 1.21a10.93 10.93 0 0 1 5.84 0c2.23-1.53 3.21-1.21 3.21-1.21.63 1.63.23 2.84.11 3.14.75.82 1.2 1.87 1.2 3.16 0 4.53-2.67 5.51-5.22 5.81.41.36.78 1.07.78 2.17 0 1.57-.01 2.84-.01 3.22 0 .31.21.69.8.57a11.53 11.53 0 0 0 7.81-11.03A11.5 11.5 0 0 0 12 .5Z"
+							fill="currentColor"
+						></path>
+					</svg>
+					<span>View on GitHub</span>
+				</a>
+			</div>
+		</div>
+		<div class="hero-art">
+			<svg viewBox="0 0 480 400" fill="none" aria-hidden="true" focusable="false">
+				<defs>
+					<linearGradient id="boxTop" x1="130" y1="170" x2="350" y2="240" gradientUnits="userSpaceOnUse">
+						<stop stop-color="#7dd3fc" />
+						<stop offset="1" stop-color="#a5b4fc" />
+					</linearGradient>
+					<linearGradient id="boxLeft" x1="130" y1="205" x2="240" y2="344" gradientUnits="userSpaceOnUse">
+						<stop stop-color="#38bdf8" />
+						<stop offset="1" stop-color="#0369a1" />
+					</linearGradient>
+					<linearGradient id="boxRight" x1="350" y1="205" x2="240" y2="344" gradientUnits="userSpaceOnUse">
+						<stop stop-color="#818cf8" />
+						<stop offset="1" stop-color="#4338ca" />
+					</linearGradient>
+					<linearGradient id="docBody" x1="200" y1="48" x2="288" y2="164" gradientUnits="userSpaceOnUse">
+						<stop stop-color="#ffffff" />
+						<stop offset="1" stop-color="#e0e7ff" />
+					</linearGradient>
+				</defs>
+				<ellipse cx="240" cy="356" rx="148" ry="18" fill="#0f172a" opacity="0.12" />
+				<g class="float">
+					<g transform="rotate(-6 240 106)">
+						<path
+							d="M204 52h58l22 22v82a8 8 0 0 1-8 8h-72a8 8 0 0 1-8-8V60a8 8 0 0 1 8-8Z"
+							fill="url(#docBody)"
+							stroke="#c7d2fe"
+						/>
+						<path d="M262 52v20a2 2 0 0 0 2 2h20" stroke="#a5b4fc" fill="none" />
+						<rect x="212" y="88" width="48" height="7" rx="3.5" fill="#a5b4fc" />
+						<rect x="212" y="104" width="58" height="7" rx="3.5" fill="#c7d2fe" />
+						<rect x="212" y="120" width="40" height="7" rx="3.5" fill="#c7d2fe" />
+						<rect x="212" y="136" width="52" height="7" rx="3.5" fill="#ddd6fe" />
+					</g>
+				</g>
+				<path d="M240 172 350 206 240 240 130 206Z" fill="url(#boxTop)" />
+				<path d="M130 206 240 240v104L130 310Z" fill="url(#boxLeft)" />
+				<path d="M350 206 240 240v104l110-34Z" fill="url(#boxRight)" />
+				<path
+					d="M240 172 350 206v104L240 344 130 310V206Z M130 206 240 240l110-34M240 240v104"
+					stroke="rgba(255,255,255,0.35)"
+					stroke-width="1.5"
+					stroke-linejoin="round"
+					fill="none"
+				/>
+				<g stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
+					<path d="m272 266-14 12 14 12" />
+					<path d="m316 266 14 12-14 12" />
+				</g>
+				<g stroke="#e0f2fe" stroke-width="5" stroke-linecap="round" opacity="0.85">
+					<path d="M164 262l42 14" />
+					<path d="M164 280l42 14" />
+					<path d="M164 298l28 9" />
+				</g>
+			</svg>
+			<span class="chip chip-a float">README.md</span>
+			<span class="chip chip-b float-slow">index.md</span>
+			<span class="chip chip-c float">getting-started.md</span>
 		</div>
 	</div>
 </section>
 
 <style>
 	.hero {
+		--g1: #0ea5e9;
+		--g2: #6366f1;
+		--g3: #d946ef;
+
 		position: relative;
 		isolation: isolate;
-		max-width: 860px;
-		margin: 0 auto;
-		padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(5rem, 10vw, 8rem);
 		overflow: hidden;
+		padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(4.5rem, 9vw, 7rem);
 	}
 
 	.hero::before {
@@ -67,187 +132,242 @@ import heroImage from '../assets/hero-v2.webp';
 		inset: 0;
 		z-index: -1;
 		background: linear-gradient(
-			90deg,
-			var(--bg) 0%,
-			color-mix(in srgb, var(--bg) 20%, transparent) 10%,
-			transparent 24%,
-			transparent 76%,
-			color-mix(in srgb, var(--bg) 20%, transparent) 90%,
-			var(--bg) 100%
-		),
-		linear-gradient(
-			180deg,
-			color-mix(in srgb, var(--bg) 6%, transparent) 0%,
-			color-mix(in srgb, var(--bg) 24%, transparent) 48%,
-			color-mix(in srgb, var(--bg) 52%, transparent) 100%
-		);
+				90deg,
+				var(--bg) 0%,
+				color-mix(in srgb, var(--bg) 20%, transparent) 10%,
+				transparent 26%,
+				transparent 74%,
+				color-mix(in srgb, var(--bg) 20%, transparent) 90%,
+				var(--bg) 100%
+			),
+			linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--bg) 8%, transparent) 0%,
+				color-mix(in srgb, var(--bg) 28%, transparent) 55%,
+				var(--bg) 100%
+			);
 	}
 
-	.hero::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: -1px;
-		height: clamp(96px, 18vw, 160px);
-		z-index: -1;
-		background: linear-gradient(
-			180deg,
-			color-mix(in srgb, var(--bg) 0%, transparent) 0%,
-			color-mix(in srgb, var(--bg) 64%, transparent) 64%,
-			var(--bg) 100%
-		);
-	}
-
-	.hero-background {
+	.hero-bg {
 		position: absolute;
 		inset: -2% -6% 0;
 		z-index: -2;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		opacity: 0.5;
+		opacity: 0.45;
 	}
 
-	.hero-background img {
+	.hero-bg img {
 		display: block;
-		width: min(118%, 980px);
+		width: min(118%, 1080px);
 		max-width: none;
 		height: auto;
 		object-fit: cover;
-		object-position: center;
 		filter: saturate(1.08) contrast(1.05) brightness(0.98);
-		mix-blend-mode: normal;
 	}
 
-	.hero-content {
+	.wrap {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
 		position: relative;
 		z-index: 1;
 	}
 
+	.hero-grid {
+		display: grid;
+		grid-template-columns: 1.05fr 0.95fr;
+		gap: clamp(2rem, 5vw, 4rem);
+		align-items: center;
+	}
+
 	.eyebrow {
-		margin: 0;
-		font-size: 0.875rem;
+		margin: 0 0 0.9rem;
+		font-size: 0.8rem;
 		font-weight: 700;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: var(--accent);
+		background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		width: fit-content;
 	}
 
 	h1 {
-		margin: 1rem 0 0;
-		font-size: clamp(2rem, 5vw, 3.25rem);
-		line-height: 1.12;
-		letter-spacing: -0.02em;
-		color: var(--text);
-		max-width: 20ch;
+		margin: 0;
+		font-size: clamp(2.6rem, 6vw, 4.3rem);
+		line-height: 1.05;
+		letter-spacing: -0.035em;
+		font-weight: 800;
 		text-wrap: balance;
-		text-shadow: 0 1px 0 color-mix(in srgb, var(--bg) 78%, transparent),
-			0 8px 24px color-mix(in srgb, var(--bg) 30%, transparent);
 	}
 
-	.summary {
-		margin: 1.5rem 0 0;
-		font-size: 1.125rem;
-		line-height: 1.8;
-		max-width: 70ch;
-		color: color-mix(in srgb, var(--text) 84%, var(--bg));
-		text-shadow: 0 1px 0 color-mix(in srgb, var(--bg) 72%, transparent);
+	.grad {
+		background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
 	}
 
-	.actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		margin-top: 2rem;
+	.lede {
+		margin: 1.4rem 0 0;
+		font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+		line-height: 1.75;
+		max-width: 54ch;
+		color: var(--text-muted);
 	}
 
-	.button {
+	.btn {
 		display: inline-flex;
 		align-items: center;
-		justify-content: center;
 		gap: 0.5rem;
-		padding: 0.72rem 1.2rem;
-		border-radius: 0.6rem;
+		padding: 0.85rem 1.6rem;
+		border-radius: 999px;
 		font-weight: 600;
+		font-size: 0.98rem;
 		text-decoration: none;
-		transition: transform 0.12s ease, box-shadow 0.12s ease, color 0.12s ease;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
 	}
 
-	.button svg {
+	.btn svg {
 		width: 1.05rem;
 		height: 1.05rem;
 		flex-shrink: 0;
 	}
 
-	.button:hover {
-		transform: translateY(-1px);
+	.btn:hover {
+		transform: translateY(-2px);
 	}
 
-	.button-primary {
-		background: var(--text);
-		color: var(--bg);
-		box-shadow: 0 6px 14px rgba(15, 23, 42, 0.28);
+	.btn-primary {
+		background: linear-gradient(135deg, var(--g1), var(--g2) 55%, var(--g3));
+		color: #ffffff;
+		box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
 	}
 
-	.button-primary:hover {
-		color: var(--bg);
-		box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+	.btn-primary:hover {
+		box-shadow: 0 14px 30px rgba(79, 70, 229, 0.45);
 	}
 
-	.button-secondary {
+	.btn-ghost {
 		border: 1px solid var(--border);
 		color: var(--text);
 		background: var(--surface);
 	}
 
-	.button-secondary:hover {
-		color: var(--accent-strong);
-		border-color: var(--accent);
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 2.2rem;
+	}
+
+	.hero-art {
+		position: relative;
+	}
+
+	.hero-art svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.hero-art g.float {
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+
+	.chip {
+		position: absolute;
+		padding: 0.42rem 0.85rem;
+		border-radius: 999px;
+		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: var(--text);
+		background: color-mix(in srgb, var(--surface) 82%, transparent);
+		border: 1px solid var(--border);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+		white-space: nowrap;
+	}
+
+	.chip-a {
+		top: 2%;
+		right: 4%;
+	}
+
+	.chip-b {
+		top: 38%;
+		left: -5%;
+	}
+
+	.chip-c {
+		bottom: 5%;
+		right: 0%;
+	}
+
+	@keyframes floaty {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-9px);
+		}
+	}
+
+	.float {
+		animation: floaty 6s ease-in-out infinite;
+	}
+
+	.float-slow {
+		animation: floaty 7.5s ease-in-out 0.8s infinite;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.float,
+		.float-slow {
+			animation: none;
+		}
+	}
+
+	:global(:root[data-theme='dark']) .hero-bg {
+		opacity: 0.32;
+	}
+
+	:global(:root[data-theme='dark']) .hero-bg img {
+		filter: saturate(1.02) contrast(1.04) brightness(0.8);
+	}
+
+	:global(:root[data-theme='dark']) .chip {
+		background: rgba(15, 23, 42, 0.72);
+		border-color: rgba(148, 163, 184, 0.25);
+		color: #e2e8f0;
+	}
+
+	@media (max-width: 980px) {
+		.hero-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-art {
+			max-width: 460px;
+			margin: 1rem auto 0;
+		}
+
+		.chip-b {
+			left: -2%;
+		}
 	}
 
 	@media (max-width: 640px) {
-		.hero {
-			padding: 2.35rem 1rem 5rem;
-		}
-
-		.hero-background {
-			inset: -1% -14% 0;
-			opacity: 0.44;
-		}
-
-		.hero-background img {
-			width: min(136%, 900px);
-		}
-
-		h1 {
-			font-size: clamp(1.85rem, 8.3vw, 2.45rem);
-		}
-
-		.summary {
-			font-size: 1rem;
-		}
-
-		.button {
+		.cta-row .btn {
 			width: 100%;
+			justify-content: center;
 		}
-	}
-
-	:root[data-theme='dark'] .hero-background {
-		opacity: 0.36;
-	}
-
-	:root[data-theme='dark'] .hero-background img {
-		mix-blend-mode: normal;
-		filter: saturate(1.02) contrast(1.04) brightness(0.86);
-	}
-
-	:root[data-theme='dark'] .hero::before {
-		background: linear-gradient(
-			180deg,
-			color-mix(in srgb, var(--bg) 18%, transparent) 0%,
-			color-mix(in srgb, var(--bg) 62%, transparent) 50%,
-			color-mix(in srgb, var(--bg) 88%, transparent) 100%
-		);
 	}
 </style>

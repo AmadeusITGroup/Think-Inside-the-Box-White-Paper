@@ -1,0 +1,1406 @@
+---
+import Layout from '../layouts/Layout.astro';
+import heroImage from '../assets/hero-v2.webp';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="Think Inside the Box · White Paper Overview">
+	<main class="overview">
+
+		<!-- ═══════════ Hero ═══════════ -->
+		<section class="hero band-light">
+			<div class="hero-bg" aria-hidden="true">
+				<img src={heroImage.src} alt="" loading="eager" />
+			</div>
+			<div class="wrap hero-grid">
+				<div class="hero-copy">
+					<p class="eyebrow">White Paper · The Friendly Tour</p>
+					<h1>Everything you need, <span class="grad">in one box.</span></h1>
+					<p class="lede">
+						AI coding agents receive your dependencies' code — but not their documentation, so
+						they guess. <em>Think Inside the Box</em> proposes a simple industry standard: ship
+						structured, AI-ready docs inside every package, version-matched to the code they
+						describe.
+					</p>
+					<div class="cta-row">
+						<a class="btn btn-primary" href={`${base}white-paper`}>Read the full white paper</a>
+						<a
+							class="btn btn-ghost"
+							href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							View on GitHub
+						</a>
+					</div>
+				</div>
+				<div class="hero-art">
+					<svg viewBox="0 0 480 400" fill="none" aria-hidden="true" focusable="false">
+						<defs>
+							<linearGradient id="boxTop" x1="130" y1="170" x2="350" y2="240" gradientUnits="userSpaceOnUse">
+								<stop stop-color="#7dd3fc" />
+								<stop offset="1" stop-color="#a5b4fc" />
+							</linearGradient>
+							<linearGradient id="boxLeft" x1="130" y1="205" x2="240" y2="344" gradientUnits="userSpaceOnUse">
+								<stop stop-color="#38bdf8" />
+								<stop offset="1" stop-color="#0369a1" />
+							</linearGradient>
+							<linearGradient id="boxRight" x1="350" y1="205" x2="240" y2="344" gradientUnits="userSpaceOnUse">
+								<stop stop-color="#818cf8" />
+								<stop offset="1" stop-color="#4338ca" />
+							</linearGradient>
+							<linearGradient id="docBody" x1="200" y1="48" x2="288" y2="164" gradientUnits="userSpaceOnUse">
+								<stop stop-color="#ffffff" />
+								<stop offset="1" stop-color="#e0e7ff" />
+							</linearGradient>
+						</defs>
+						<ellipse cx="240" cy="356" rx="148" ry="18" fill="#0f172a" opacity="0.12" />
+						<g class="float">
+							<g transform="rotate(-6 240 106)">
+								<path
+									d="M204 52h58l22 22v82a8 8 0 0 1-8 8h-72a8 8 0 0 1-8-8V60a8 8 0 0 1 8-8Z"
+									fill="url(#docBody)"
+									stroke="#c7d2fe"
+								/>
+								<path d="M262 52v20a2 2 0 0 0 2 2h20" stroke="#a5b4fc" fill="none" />
+								<rect x="212" y="88" width="48" height="7" rx="3.5" fill="#a5b4fc" />
+								<rect x="212" y="104" width="58" height="7" rx="3.5" fill="#c7d2fe" />
+								<rect x="212" y="120" width="40" height="7" rx="3.5" fill="#c7d2fe" />
+								<rect x="212" y="136" width="52" height="7" rx="3.5" fill="#ddd6fe" />
+							</g>
+						</g>
+						<path d="M240 172 350 206 240 240 130 206Z" fill="url(#boxTop)" />
+						<path d="M130 206 240 240v104L130 310Z" fill="url(#boxLeft)" />
+						<path d="M350 206 240 240v104l110-34Z" fill="url(#boxRight)" />
+						<path
+							d="M240 172 350 206v104L240 344 130 310V206Z M130 206 240 240l110-34M240 240v104"
+							stroke="rgba(255,255,255,0.35)"
+							stroke-width="1.5"
+							stroke-linejoin="round"
+							fill="none"
+						/>
+						<g stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
+							<path d="m272 266-14 12 14 12" />
+							<path d="m316 266 14 12-14 12" />
+						</g>
+						<g stroke="#e0f2fe" stroke-width="5" stroke-linecap="round" opacity="0.85">
+							<path d="M164 262l42 14" />
+							<path d="M164 280l42 14" />
+							<path d="M164 298l28 9" />
+						</g>
+					</svg>
+					<span class="chip chip-a float">README.md</span>
+					<span class="chip chip-b float-slow">index.md</span>
+					<span class="chip chip-c float">getting-started.md</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- ═══════════ The problem ═══════════ -->
+		<section class="band band-dark">
+			<div class="wrap center">
+				<p class="eyebrow">The Problem</p>
+				<h2 class="h-xl">Today, your AI agent is <span class="grad">guessing.</span></h2>
+				<p class="sub">
+					Run <code>npm install</code> and the agent receives the library's code. The
+					documentation? It lives on a website — behind a search engine, in a format made for
+					human eyes. So the agent falls back on stale training data, and it shows.
+				</p>
+				<div class="cards">
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<circle cx="12" cy="12" r="8.5" stroke-dasharray="3.2 3.2" />
+								<path d="M9.8 9.6a2.5 2.5 0 1 1 3.6 2.2c-.9.5-1.4 1.1-1.4 2" />
+								<circle cx="12" cy="16.4" r="1" fill="currentColor" stroke="none" />
+							</svg>
+						</div>
+						<h3>Hallucinated APIs</h3>
+						<p>
+							Function signatures, props, and methods invented from outdated training data — APIs
+							that simply don't exist in the version you installed.
+						</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M4.5 7.5A8.5 8.5 0 1 1 3.6 13" />
+								<path d="M4 4v4h4" />
+								<path d="M12 8.5V12l2.6 1.6" />
+							</svg>
+						</div>
+						<h3>Deprecated patterns</h3>
+						<p>
+							Yesterday's idioms, deprecated calls, and pre-release conventions surface as if they
+							were current best practice.
+						</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M4.5 12a7.5 7.5 0 0 1 12.8-5.3" />
+								<path d="M17.8 3.4v3.6h-3.6" />
+								<path d="M19.5 12a7.5 7.5 0 0 1-12.8 5.3" />
+								<path d="M6.2 20.6v-3.6h3.6" />
+							</svg>
+						</div>
+						<h3>Correction loops</h3>
+						<p>
+							You spot the mistakes, correct the agent, and re-prompt — burning the very
+							productivity AI was supposed to create.
+						</p>
+					</div>
+				</div>
+				<p class="pull">
+					“An agent's best option is reading local files — fast, version-matched, always
+					available. But today, there is <span class="grad">almost nothing to read.</span>”
+				</p>
+			</div>
+		</section>
+
+		<!-- ═══════════ The shift ═══════════ -->
+		<section class="band band-light">
+			<div class="wrap">
+				<p class="eyebrow">The Shift</p>
+				<h2 class="h-xl">Agents read files. <span class="grad">Not websites.</span></h2>
+				<p class="sub">
+					When an AI agent meets an unfamiliar library, it has three main options. Only one of
+					them works well.
+				</p>
+				<div class="options">
+					<div class="option">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<ellipse cx="12" cy="5.5" rx="7.5" ry="2.8" />
+								<path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6" />
+								<path d="M4.5 11.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6" />
+							</svg>
+						</div>
+						<div>
+							<h3>Training data</h3>
+							<p>Months out of date the moment the model ships. Every release after the cutoff is invisible.</p>
+						</div>
+						<span class="verdict verdict-bad">Stale</span>
+					</div>
+					<div class="option">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<circle cx="12" cy="12" r="8.5" />
+								<path d="M3.5 12h17" />
+								<path d="M12 3.5c2.5 2.3 3.8 5.2 3.8 8.5s-1.3 6.2-3.8 8.5c-2.5-2.3-3.8-5.2-3.8-8.5s1.3-6.2 3.8-8.5Z" />
+							</svg>
+						</div>
+						<div>
+							<h3>Web search</h3>
+							<p>Slow, often blocked by corporate networks, and built for browsers — not for agents.</p>
+						</div>
+						<span class="verdict verdict-bad">Fragile</span>
+					</div>
+					<div class="option option-ideal">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M3.5 6.5a2 2 0 0 1 2-2h4l2 2.5h7a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V6.5Z" />
+								<path d="m9.5 13.5 1.8 1.8 3.2-3.3" />
+							</svg>
+						</div>
+						<div>
+							<h3>Local files</h3>
+							<p>Fast, offline, and version-matched to the exact installed package. Zero setup.</p>
+						</div>
+						<span class="verdict verdict-good">Ideal</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ═══════════ The principle ═══════════ -->
+		<section class="band band-dark">
+			<div class="wrap center">
+				<p class="eyebrow">The Principle</p>
+				<h2 class="h-xl">Think Inside the Box.</h2>
+				<p class="sub">
+					Buy a flat-pack bookcase and everything arrives in one box — panels, screws, and the
+					instructions. No website. No scavenger hunt. Software libraries should work exactly the
+					same way.
+				</p>
+				<div class="cards map-grid">
+					<div class="card map">
+						<p class="map-from">Product</p>
+						<svg class="map-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+							<path d="M12 5v14m0 0-5-5m5 5 5-5" />
+						</svg>
+						<h3>Source code &amp; build artifacts</h3>
+					</div>
+					<div class="card map">
+						<p class="map-from">Instructions</p>
+						<svg class="map-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+							<path d="M12 5v14m0 0-5-5m5 5 5-5" />
+						</svg>
+						<h3>AI-ready docs, guides &amp; examples</h3>
+					</div>
+					<div class="card map">
+						<p class="map-from">The box</p>
+						<svg class="map-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+							<path d="M12 5v14m0 0-5-5m5 5 5-5" />
+						</svg>
+						<h3>The package — tarball, wheel, JAR</h3>
+					</div>
+					<div class="card map">
+						<p class="map-from">Customer</p>
+						<svg class="map-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+							<path d="M12 5v14m0 0-5-5m5 5 5-5" />
+						</svg>
+						<h3>The AI coding agent</h3>
+					</div>
+					<div class="card map">
+						<p class="map-from">The store</p>
+						<svg class="map-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+							<path d="M12 5v14m0 0-5-5m5 5 5-5" />
+						</svg>
+						<h3>The registry — npm, PyPI, Maven</h3>
+					</div>
+				</div>
+				<p class="pull">
+					Documentation written for the consumer who actually reads it — the AI agent — shipped
+					<span class="grad"> in the delivery</span>, not linked from it.
+				</p>
+			</div>
+		</section>
+
+		<!-- ═══════════ The standard ═══════════ -->
+		<section class="band band-light">
+			<div class="wrap">
+				<div class="split">
+					<div>
+						<p class="eyebrow">The Standard · CoDoc</p>
+						<h2 class="h-xl">One folder, <span class="grad">shipped with the code.</span></h2>
+						<p class="sub">
+							The proposal is deliberately minimal: a <code>docs/</code> directory in every
+							package, with an entry point and an index the agent can scan.
+						</p>
+						<div class="mini-list">
+							<div class="mini">
+								<div class="icon-badge">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+										<path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9.5A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" />
+										<path d="M14 3.5V8h4.5" />
+										<path d="M9 12.5h6M9 16h6" />
+									</svg>
+								</div>
+								<div>
+									<h3>README.md — the 5 Ws</h3>
+									<p>What, When, Why, Where, and HoW — so the agent instantly knows it's in the right place.</p>
+								</div>
+							</div>
+							<div class="mini">
+								<div class="icon-badge">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+										<path d="M8.5 6h11M8.5 12h11M8.5 18h11" />
+										<path d="M4 6h.01M4 12h.01M4 18h.01" />
+									</svg>
+								</div>
+								<div>
+									<h3>index.md — the catalogue</h3>
+									<p>A map of everything inside, so the agent reads only what it needs — never the whole tree.</p>
+								</div>
+							</div>
+							<div class="mini">
+								<div class="icon-badge">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+										<path d="M3.5 17.5v-11l4.5 6 4.5-6v11" />
+										<path d="M17 6.5V14m0 0-2.5-2.5M17 14l2.5-2.5" />
+									</svg>
+								</div>
+								<div>
+									<h3>Plain markdown</h3>
+									<p>One concern per file. Copy-pasteable examples. The format LLMs understand best.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="window" aria-hidden="true">
+						<div class="window-bar">
+							<span class="dot" style="background:#f87171"></span>
+							<span class="dot" style="background:#fbbf24"></span>
+							<span class="dot" style="background:#34d399"></span>
+						</div>
+						<pre class="tree"><span class="dir">your-package/</span>
+├── <span class="dir">docs/</span>
+│   ├── <span class="hl">README.md</span>            <span class="cmt">← entry point: the 5 Ws</span>
+│   ├── <span class="hl">index.md</span>             <span class="cmt">← catalogue of contents</span>
+│   ├── getting-started.md
+│   └── <span class="dir">library-folder/</span>
+│       ├── api.md
+│       ├── examples.md
+│       └── guidelines.md
+├── <span class="dir">src/</span>
+└── package.json</pre>
+					</div>
+				</div>
+				<div class="proof">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+						<path d="M12 3 3.5 7.5v9L12 21l8.5-4.5v-9L12 3Z" />
+						<path d="M3.5 7.5 12 12l8.5-4.5M12 12v9" />
+					</svg>
+					<p>
+						<strong>Already working in production.</strong> The Design Factory design system ships co-packaged documentation with
+						a complete knowledge base for 56 components — APIs, examples,
+						guidelines, and demos — inside its npm package.
+					</p>
+				</div>
+				<div class="chips" aria-label="Supported ecosystems">
+					<span class="eco">npm</span>
+					<span class="eco">PyPI</span>
+					<span class="eco">Maven</span>
+					<span class="eco">NuGet</span>
+					<span class="eco">crates.io</span>
+				</div>
+				<p class="chips-caption">The same convention should work in every ecosystem.</p>
+			</div>
+		</section>
+
+		<!-- ═══════════ Why files ═══════════ -->
+		<section class="band band-dark">
+			<div class="wrap center">
+				<p class="eyebrow">Why Not Servers?</p>
+				<h2 class="h-xl">No servers. No skills lottery. <span class="grad">Just files.</span></h2>
+				<p class="sub">
+					MCP servers pollute the context window. Skills retrieve probabilistically and drift out
+					of sync. Sub-agents add overhead. Files are deterministic — and reading them is a primitive
+                    skill every agent already has.
+				</p>
+				<div class="no-chips">
+					<span class="no-chip">✕&nbsp; No MCP servers</span>
+					<span class="no-chip">✕&nbsp; No skills lottery</span>
+					<span class="no-chip">✕&nbsp; No sub-agents</span>
+					<span class="no-chip">✕&nbsp; No API keys</span>
+				</div>
+				<p class="pull">
+					“Don't add infrastructure when the agent's existing capabilities — reading files and
+					following references — <span class="grad">already solve the problem.</span>”
+				</p>
+			</div>
+		</section>
+
+		<!-- ═══════════ Economics ═══════════ -->
+		<section class="band band-light">
+			<div class="wrap center">
+				<p class="eyebrow">The Economics</p>
+				<h2 class="h-xl">Rounding-error cost. <span class="grad">Outsized value.</span></h2>
+				<p class="sub">
+					Markdown is tiny, generation is automatable, and consumers need nothing at all. The
+					value — correct code on first generation — is disproportionately large.
+				</p>
+				<div class="stats">
+					<div class="stat">
+						<p class="num grad">&lt; 500 KB</p>
+						<p class="stat-label">
+							A complete doc set for a mid-size library — next to a 200–500 MB
+							<code>node_modules</code> folder.
+						</p>
+					</div>
+					<div class="stat">
+						<p class="num grad">0</p>
+						<p class="stat-label">
+							Lines of configuration for consumers. No servers, no keys, no bookmarks.
+						</p>
+					</div>
+					<div class="stat">
+						<p class="num grad">56</p>
+						<p class="stat-label">
+							Components fully documented in the Design Factory reference implementation.
+						</p>
+					</div>
+				</div>
+				<div class="cycle">
+					<div class="cycle-step">Libraries ship AI-ready docs</div>
+					<div class="cycle-arrow" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7" /></svg>
+					</div>
+					<div class="cycle-step">Agents write correct code</div>
+					<div class="cycle-arrow" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7" /></svg>
+					</div>
+					<div class="cycle-step">Developers prefer those libraries</div>
+					<div class="cycle-arrow" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7" /></svg>
+					</div>
+					<div class="cycle-step">The whole ecosystem rises</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ═══════════ Security ═══════════ -->
+		<section class="band band-dark">
+			<div class="wrap center">
+				<div class="icon-badge icon-hero">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+						<path d="M12 3.2 19 6v5.2c0 4.3-2.9 8.1-7 9.6-4.1-1.5-7-5.3-7-9.6V6l7-2.8Z" />
+						<path d="m9 11.8 2.1 2.1 4-4.1" />
+					</svg>
+				</div>
+				<p class="eyebrow">Security</p>
+				<h2 class="h-xl">Docs as context. <span class="grad">Never as commands.</span></h2>
+				<p class="sub">
+					Auto-reading content from packages opens a prompt-injection surface. The standard names
+					the risk and bounds it — a lower-severity vector than the supply-chain risk you already
+					accept by running third-party code.
+				</p>
+				<div class="cards">
+					<div class="card">
+						<h3>AI tool vendors</h3>
+						<p>
+							Sandbox <code>docs/</code> content as reference material, with provenance attached —
+							never as system instructions.
+						</p>
+					</div>
+					<div class="card">
+						<h3>Library authors</h3>
+						<p>
+							Ship factual documentation only. No agent directives — and everything reviewable in
+							the source repo.
+						</p>
+					</div>
+					<div class="card">
+						<h3>Package registries</h3>
+						<p>
+							Scan <code>docs/</code> for injection patterns and sign packages end-to-end with
+							provenance.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ═══════════ Precedent ═══════════ -->
+		<section class="band band-light">
+			<div class="wrap center">
+				<p class="eyebrow">We've Seen This Story</p>
+				<h2 class="h-xl">Types made this journey. <span class="grad">Docs are next.</span></h2>
+				<div class="timeline">
+					<div class="t-node">
+						<span class="t-tag">DefinitelyTyped era</span>
+						<p>
+							Types lived in a separate community repository. They drifted from the code, decayed,
+							and coverage was patchy.
+						</p>
+					</div>
+					<div class="cycle-arrow" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7" /></svg>
+					</div>
+					<div class="t-node">
+						<span class="t-tag">Today</span>
+						<p>
+							First-party types ship inside the package itself. It isn't a feature — it's simply
+							expected.
+						</p>
+					</div>
+					<div class="cycle-arrow" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7" /></svg>
+					</div>
+					<div class="t-node t-next">
+						<span class="t-tag t-tag-next">Next</span>
+						<p>
+							AI-ready documentation ships inside the package. The same inevitability, one step
+							ahead.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ═══════════ Call to action ═══════════ -->
+		<section class="band band-dark">
+			<div class="wrap center">
+				<p class="eyebrow">Join In</p>
+				<h2 class="h-xl">Ship the docs <span class="grad">in the box.</span></h2>
+				<p class="sub">
+					The standard is minimal, the entry bar is low, and adoption can start with the next
+					release. Here's how each part of the ecosystem moves it forward.
+				</p>
+				<div class="cards">
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="m8.5 8.5-4 3.5 4 3.5M15.5 8.5l4 3.5-4 3.5" />
+							</svg>
+						</div>
+						<h3>Library authors</h3>
+						<p>Add a <code>docs/</code> folder to your next release. Even a great README is a start.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<rect x="5" y="8.5" width="14" height="10" rx="2.5" />
+								<path d="M12 5v3.5M9 5h6M3 12.5h2M19 12.5h2" />
+								<circle cx="9.2" cy="13" r="0.9" fill="currentColor" stroke="none" />
+								<circle cx="14.8" cy="13" r="0.9" fill="currentColor" stroke="none" />
+								<path d="M9.5 16.3h5" />
+							</svg>
+						</div>
+						<h3>AI tool vendors</h3>
+						<p>Auto-discover <code>docs/</code> in installed dependencies.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<rect x="4" y="4.5" width="16" height="6.5" rx="1.8" />
+								<rect x="4" y="13" width="16" height="6.5" rx="1.8" />
+								<path d="M7.2 7.7h.01M7.2 16.2h.01" />
+							</svg>
+						</div>
+						<h3>Package registries</h3>
+						<p>Badge the packages that ship AI-ready docs, and make documentation quality visible.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<circle cx="9" cy="8.5" r="3.2" />
+								<path d="M3.5 19.5c.6-3 2.9-4.6 5.5-4.6s4.9 1.6 5.5 4.6" />
+								<circle cx="17" cy="9.5" r="2.6" />
+								<path d="M15.8 15.2c2.3.2 4 1.6 4.7 4.3" />
+							</svg>
+						</div>
+						<h3>Developers</h3>
+						<p>Ask the libraries you rely on for co-packaged docs — like the community once asked for types.</p>
+					</div>
+				</div>
+				<div class="cta-row">
+					<a class="btn btn-primary" href={`${base}white-paper`}>Read the full white paper</a>
+					<a
+						class="btn btn-ghost"
+						href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						View on GitHub
+					</a>
+				</div>
+				<p class="foot">© 2026 AI Documentation Working Group · <em>Think Inside the Box</em> · v1.0</p>
+			</div>
+		</section>
+
+	</main>
+</Layout>
+
+<style>
+	/* ── Palette & shared tokens ─────────────────────────────── */
+	.overview {
+		--g1: #0ea5e9;
+		--g2: #6366f1;
+		--g3: #d946ef;
+		--band-bg: #070b16;
+		--band-text: #e6edf7;
+		--band-muted: #96a3b8;
+		--band-card: rgba(148, 163, 184, 0.08);
+		--band-border: rgba(148, 163, 184, 0.18);
+	}
+
+	.wrap {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+		position: relative;
+		z-index: 1;
+	}
+
+	.band {
+		padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+	}
+
+	.band-light {
+		background: var(--bg);
+		color: var(--text);
+	}
+
+	.band-dark {
+		background:
+			radial-gradient(55% 45% at 12% 0%, rgba(14, 165, 233, 0.16), transparent 60%),
+			radial-gradient(50% 45% at 88% 100%, rgba(168, 85, 247, 0.14), transparent 62%),
+			var(--band-bg);
+		color: var(--band-text);
+		border-top: 1px solid rgba(148, 163, 184, 0.14);
+		border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+	}
+
+	.center {
+		text-align: center;
+	}
+
+	/* ── Typography ──────────────────────────────────────────── */
+	.eyebrow {
+		margin: 0 0 0.9rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		width: fit-content;
+	}
+
+	.center .eyebrow {
+		margin-inline: auto;
+	}
+
+	.h-xl {
+		margin: 0;
+		font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+		font-weight: 800;
+		text-wrap: balance;
+	}
+
+	.sub {
+		margin: 1.25rem 0 0;
+		font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+		line-height: 1.75;
+		max-width: 62ch;
+	}
+
+	.center .sub {
+		margin-inline: auto;
+	}
+
+	.band-light .sub {
+		color: var(--text-muted);
+	}
+
+	.band-dark .sub {
+		color: var(--band-muted);
+	}
+
+	.grad {
+		background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	code {
+		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+		font-size: 0.88em;
+		padding: 0.1em 0.35em;
+		border-radius: 0.35em;
+		background: color-mix(in srgb, var(--g2) 12%, transparent);
+	}
+
+	.pull {
+		margin: 3.5rem auto 0;
+		max-width: 46ch;
+		text-align: center;
+		font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+		line-height: 1.5;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+	}
+
+	/* ── Buttons ─────────────────────────────────────────────── */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.85rem 1.6rem;
+		border-radius: 999px;
+		font-weight: 600;
+		font-size: 0.98rem;
+		text-decoration: none;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, var(--g1), var(--g2) 55%, var(--g3));
+		color: #ffffff;
+		box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
+	}
+
+	.btn-primary:hover {
+		box-shadow: 0 14px 30px rgba(79, 70, 229, 0.45);
+	}
+
+	.btn-ghost {
+		border: 1px solid var(--border);
+		color: var(--text);
+		background: var(--surface);
+	}
+
+	.band-dark .btn-ghost {
+		border-color: var(--band-border);
+		color: var(--band-text);
+		background: rgba(148, 163, 184, 0.06);
+	}
+
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 2.2rem;
+	}
+
+	.center .cta-row {
+		justify-content: center;
+	}
+
+	/* ── Hero ────────────────────────────────────────────────── */
+	.hero {
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
+		padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(4.5rem, 9vw, 7rem);
+	}
+
+	.hero::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(
+				90deg,
+				var(--bg) 0%,
+				color-mix(in srgb, var(--bg) 20%, transparent) 10%,
+				transparent 26%,
+				transparent 74%,
+				color-mix(in srgb, var(--bg) 20%, transparent) 90%,
+				var(--bg) 100%
+			),
+			linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--bg) 8%, transparent) 0%,
+				color-mix(in srgb, var(--bg) 28%, transparent) 55%,
+				var(--bg) 100%
+			);
+	}
+
+	.hero-bg {
+		position: absolute;
+		inset: -2% -6% 0;
+		z-index: -2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0.45;
+	}
+
+	.hero-bg img {
+		display: block;
+		width: min(118%, 1080px);
+		max-width: none;
+		height: auto;
+		object-fit: cover;
+		filter: saturate(1.08) contrast(1.05) brightness(0.98);
+	}
+
+	.hero-grid {
+		display: grid;
+		grid-template-columns: 1.05fr 0.95fr;
+		gap: clamp(2rem, 5vw, 4rem);
+		align-items: center;
+	}
+
+	.hero h1 {
+		margin: 0;
+		font-size: clamp(2.6rem, 6vw, 4.3rem);
+		line-height: 1.05;
+		letter-spacing: -0.035em;
+		font-weight: 800;
+		text-wrap: balance;
+	}
+
+	.lede {
+		margin: 1.4rem 0 0;
+		font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+		line-height: 1.75;
+		max-width: 54ch;
+		color: var(--text-muted);
+	}
+
+	.hero-art {
+		position: relative;
+	}
+
+	.hero-art svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.hero-art g.float {
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+
+	.chip {
+		position: absolute;
+		padding: 0.42rem 0.85rem;
+		border-radius: 999px;
+		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: var(--text);
+		background: color-mix(in srgb, var(--surface) 82%, transparent);
+		border: 1px solid var(--border);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+		white-space: nowrap;
+	}
+
+	.chip-a {
+		top: 2%;
+		right: 4%;
+	}
+
+	.chip-b {
+		top: 38%;
+		left: -5%;
+	}
+
+	.chip-c {
+		bottom: 5%;
+		right: 0%;
+	}
+
+	@keyframes floaty {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-9px);
+		}
+	}
+
+	.float {
+		animation: floaty 6s ease-in-out infinite;
+	}
+
+	.float-slow {
+		animation: floaty 7.5s ease-in-out 0.8s infinite;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.float,
+		.float-slow {
+			animation: none;
+		}
+	}
+
+	/* ── Cards ───────────────────────────────────────────────── */
+	.cards {
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 3rem;
+		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+		text-align: left;
+	}
+
+	.card {
+		border-radius: 22px;
+		padding: 1.8rem;
+	}
+
+	.band-light .card {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+	}
+
+	.band-dark .card {
+		background: var(--band-card);
+		border: 1px solid var(--band-border);
+	}
+
+	.card h3 {
+		margin: 1.1rem 0 0.55rem;
+		font-size: 1.12rem;
+		letter-spacing: -0.01em;
+	}
+
+	.band-dark .card h3 {
+		color: var(--band-text);
+	}
+
+	.card p {
+		margin: 0;
+		line-height: 1.7;
+		font-size: 0.97rem;
+	}
+
+	.band-light .card p {
+		color: var(--text-muted);
+	}
+
+	.band-dark .card p {
+		color: var(--band-muted);
+	}
+
+	.icon-badge {
+		width: 46px;
+		height: 46px;
+		border-radius: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--g2);
+		background: linear-gradient(
+			135deg,
+			color-mix(in srgb, var(--g1) 16%, transparent),
+			color-mix(in srgb, var(--g3) 16%, transparent)
+		);
+		border: 1px solid color-mix(in srgb, var(--g2) 30%, transparent);
+	}
+
+	.icon-badge svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.icon-hero {
+		width: 64px;
+		height: 64px;
+		border-radius: 20px;
+		margin: 0 auto 1.4rem;
+		color: var(--g1);
+	}
+
+	.icon-hero svg {
+		width: 34px;
+		height: 34px;
+	}
+
+	/* ── Mapping cards (principle) ───────────────────────────── */
+	.map-grid {
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	}
+
+	.map {
+		text-align: center;
+	}
+
+	.map-from {
+		margin: 0;
+		font-size: 0.76rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--band-muted);
+	}
+
+	.map-arrow {
+		width: 20px;
+		height: 20px;
+		margin: 0.7rem auto 0.2rem;
+		display: block;
+		color: var(--g1);
+	}
+
+	.map h3 {
+		margin: 0.5rem 0 0;
+	}
+
+	/* ── Options rows (the shift) ────────────────────────────── */
+	.options {
+		display: grid;
+		gap: 1rem;
+		margin-top: 3rem;
+	}
+
+	.option {
+		display: grid;
+		grid-template-columns: 52px 1fr auto;
+		gap: 1.25rem;
+		align-items: center;
+		padding: 1.4rem 1.6rem;
+		border-radius: 18px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+	}
+
+	.option h3 {
+		margin: 0;
+		font-size: 1.1rem;
+	}
+
+	.option p {
+		margin: 0.25rem 0 0;
+		color: var(--text-muted);
+		font-size: 0.97rem;
+		line-height: 1.6;
+	}
+
+	.verdict {
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		padding: 0.35rem 0.85rem;
+		border-radius: 999px;
+		white-space: nowrap;
+	}
+
+	.verdict-bad {
+		color: #b45309;
+		background: rgba(245, 158, 11, 0.12);
+		border: 1px solid rgba(245, 158, 11, 0.3);
+	}
+
+	.option-ideal {
+		border: 1.5px solid transparent;
+		background:
+			linear-gradient(var(--surface), var(--surface)) padding-box,
+			linear-gradient(90deg, var(--g1), var(--g2), var(--g3)) border-box;
+		box-shadow: 0 16px 40px rgba(99, 102, 241, 0.18);
+	}
+
+	.verdict-good {
+		color: #ffffff;
+		background: linear-gradient(90deg, var(--g1), var(--g2));
+	}
+
+	/* ── Split + file tree window ────────────────────────────── */
+	.split {
+		display: grid;
+		grid-template-columns: 1.05fr 0.95fr;
+		gap: clamp(2rem, 4vw, 3.5rem);
+		align-items: center;
+	}
+
+	.mini-list {
+		margin-top: 2.2rem;
+	}
+
+	.mini {
+		display: flex;
+		gap: 1rem;
+		padding: 1.15rem 0;
+		border-top: 1px solid var(--border);
+	}
+
+	.mini h3 {
+		margin: 0 0 0.3rem;
+		font-size: 1.02rem;
+	}
+
+	.mini p {
+		margin: 0;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	.window {
+		border-radius: 18px;
+		overflow: hidden;
+		background: #0b1322;
+		border: 1px solid rgba(148, 163, 184, 0.22);
+		box-shadow: 0 24px 60px rgba(2, 6, 23, 0.35);
+	}
+
+	.window-bar {
+		display: flex;
+		gap: 0.45rem;
+		padding: 0.8rem 1rem;
+		background: rgba(148, 163, 184, 0.08);
+		border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+	}
+
+	.dot {
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+	}
+
+	.tree {
+		margin: 0;
+		padding: 1.3rem 1.4rem;
+		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+		font-size: 0.86rem;
+		line-height: 1.85;
+		color: #cbd5e1;
+		white-space: pre;
+		overflow-x: auto;
+	}
+
+	.tree .dir {
+		color: #7dd3fc;
+		font-weight: 600;
+	}
+
+	.tree .cmt {
+		color: #64748b;
+	}
+
+	.tree .hl {
+		color: #f0abfc;
+		font-weight: 600;
+	}
+
+	.proof {
+		margin-top: 2.75rem;
+		padding: 1.15rem 1.5rem;
+		border-radius: 16px;
+		display: flex;
+		gap: 0.9rem;
+		align-items: center;
+		background: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--g1) 10%, transparent),
+			color-mix(in srgb, var(--g3) 10%, transparent)
+		);
+		border: 1px solid color-mix(in srgb, var(--g2) 26%, transparent);
+		font-size: 0.98rem;
+		line-height: 1.65;
+	}
+
+	.proof svg {
+		width: 30px;
+		height: 30px;
+		flex-shrink: 0;
+		color: var(--g2);
+	}
+
+	.proof p {
+		margin: 0;
+	}
+
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		justify-content: center;
+		margin-top: 2.75rem;
+	}
+
+	.eco {
+		padding: 0.5rem 1.15rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		background: var(--surface);
+		font-weight: 600;
+		font-size: 0.92rem;
+	}
+
+	.chips-caption {
+		text-align: center;
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		margin: 0.9rem 0 0;
+	}
+
+	/* ── "No" chips ──────────────────────────────────────────── */
+	.no-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		justify-content: center;
+		margin-top: 2.5rem;
+	}
+
+	.no-chip {
+		padding: 0.5rem 1.1rem;
+		border-radius: 999px;
+		border: 1px solid var(--band-border);
+		background: var(--band-card);
+		color: var(--band-muted);
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	/* ── Stats ───────────────────────────────────────────────── */
+	.stats {
+		display: grid;
+		gap: 1.25rem;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		margin-top: 3rem;
+	}
+
+	.stat {
+		text-align: center;
+		padding: 2.1rem 1.5rem;
+		border-radius: 22px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+	}
+
+	.num {
+		margin: 0;
+		font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1;
+	}
+
+	.stat-label {
+		margin: 0.9rem 0 0;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+		line-height: 1.65;
+	}
+
+	/* ── Cycle & timeline ────────────────────────────────────── */
+	.cycle,
+	.timeline {
+		display: grid;
+		gap: 1rem;
+		align-items: stretch;
+		margin-top: 3rem;
+	}
+
+	.cycle {
+		grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+	}
+
+	.timeline {
+		grid-template-columns: 1fr auto 1fr auto 1fr;
+	}
+
+	.cycle-step {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 1.35rem 1.1rem;
+		border-radius: 16px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		font-weight: 600;
+		font-size: 0.96rem;
+		line-height: 1.5;
+	}
+
+	.cycle-arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text-muted);
+	}
+
+	.cycle-arrow svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	.t-node {
+		padding: 1.8rem;
+		border-radius: 22px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		text-align: left;
+	}
+
+	.t-node p {
+		margin: 0.9rem 0 0;
+		color: var(--text-muted);
+		font-size: 0.97rem;
+		line-height: 1.65;
+	}
+
+	.t-tag {
+		display: inline-block;
+		font-size: 0.76rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		padding: 0.35rem 0.85rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		color: var(--text-muted);
+	}
+
+	.t-next {
+		border: 1.5px solid transparent;
+		background:
+			linear-gradient(var(--surface), var(--surface)) padding-box,
+			linear-gradient(90deg, var(--g1), var(--g2), var(--g3)) border-box;
+		box-shadow: 0 16px 40px rgba(99, 102, 241, 0.18);
+	}
+
+	.t-tag-next {
+		border: none;
+		color: #ffffff;
+		background: linear-gradient(90deg, var(--g1), var(--g2));
+	}
+
+	/* ── Footer note ─────────────────────────────────────────── */
+	.foot {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--band-border);
+		text-align: center;
+		color: var(--band-muted);
+		font-size: 0.88rem;
+	}
+
+	/* ── Dark-theme tweaks for light bands ───────────────────── */
+	:global(:root[data-theme='dark']) .hero-bg {
+		opacity: 0.32;
+	}
+
+	:global(:root[data-theme='dark']) .hero-bg img {
+		filter: saturate(1.02) contrast(1.04) brightness(0.8);
+	}
+
+	:global(:root[data-theme='dark']) .chip {
+		background: rgba(15, 23, 42, 0.72);
+		border-color: rgba(148, 163, 184, 0.25);
+		color: #e2e8f0;
+	}
+
+	:global(:root[data-theme='dark']) .verdict-bad {
+		color: #fbbf24;
+		background: rgba(245, 158, 11, 0.14);
+		border-color: rgba(245, 158, 11, 0.35);
+	}
+
+	/* ── Responsive ──────────────────────────────────────────── */
+	@media (max-width: 980px) {
+		.hero-grid,
+		.split {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-art {
+			max-width: 460px;
+			margin: 1rem auto 0;
+		}
+
+		.chip-b {
+			left: -2%;
+		}
+
+		.cycle,
+		.timeline {
+			grid-template-columns: 1fr;
+		}
+
+		.cycle-arrow svg {
+			transform: rotate(90deg);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.option {
+			grid-template-columns: 44px 1fr;
+		}
+
+		.option .verdict {
+			grid-column: 2;
+			justify-self: start;
+		}
+
+		.cta-row .btn {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

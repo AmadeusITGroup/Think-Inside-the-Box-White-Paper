@@ -8,7 +8,7 @@ This repository contains a white paper proposing **co-packaged documentation**, 
 
 ## The Problem
 
-AI coding assistants (GitHub Copilot, Claude, etc.) are transforming software development, but they operate without the contextual knowledge they need when consuming libraries. Today's packages contain code but not documentation, the docs live on websites that AI agents struggle to access and consume. This gap forces agents to rely on stale training data, producing hallucinated APIs, deprecated patterns, and incorrect usage.
+AI coding assistants (GitHub Copilot, Claude, etc.) are transforming software development, but they do not operate with all the contextual knowledge they need when consuming libraries. Today's packages contain code but not documentation, the docs live on websites that AI agents struggle to access and consume. This gap forces agents to rely on stale training data, producing hallucinated APIs, deprecated patterns, and incorrect usage.
 
 ## The Solution
 

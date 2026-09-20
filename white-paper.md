@@ -87,6 +87,8 @@ The documentation gap produces observable failures in AI-assisted development:
 
 These are not edge cases. They are the daily experience of developers using AI tools with any library that has evolved since the agent's training cutoff. Preliminary observations from Design Factory's internal adoption suggest that co-packaged documentation significantly reduces these failures, though rigorous benchmarking across diverse libraries remains an open research direction.
 
+To close this evidence gap, the authors intend to develop **CoDocBench**, a public evaluation suite measuring AI-agent performance on library-usage tasks (for example, API correctness and deprecated-pattern rates) with and without co-packaged documentation, across multiple libraries and package ecosystems. CoDocBench is intended to provide measurable success criteria for the standard proposed in this paper and to invite external validation of its claims.
+
 ---
 
 ## 3. The Think Inside the Box Principle
@@ -141,6 +143,8 @@ Design Factory publishes the following structure inside its npm package:
 ```
 
 This is **the documentation, versioned and shipped with the code.** When a developer runs `npm install @design-factory/design-factory`, they receive not just the Angular components but a complete, structured knowledge base that any AI agent can navigate.
+
+> **A note on the `.ai/` directory name.** Design Factory's first implementation predates the current CoDoc standard proposed in Section 7, which specifies a plain `docs/` directory instead of a hidden `.ai/` directory. Early feedback on the `.ai/` convention recommended a location that is visible and accessible to both humans and AI agents: hidden dot-directories are easy to overlook in file explorers, and some tools exclude them from search and indexing by default. Design Factory will update its package structure to conform to the standard proposed in this paper, and is in the process of becoming fully open-source, which will make its documentation generation pipeline available as a public reference implementation.
 
 ### 4.2 How the Agent Uses It
 
@@ -215,7 +219,7 @@ The incremental cost of co-packaging documentation is low:
 
 - **If documentation already exists** (which it does for any established library), the work involves building a transformation pipeline that converts existing docs into AI-friendly structured markdown and integrating it into the build process. This is a **one-time investment** — typically days to weeks of engineering effort, depending on how structured and consistent the existing documentation is.
   Libraries with well-organized docs (e.g., generated from JSDoc/Javadoc/Sphinx with consistent templates) will find this straightforward. Libraries with documentation scattered across READMEs, wikis, blog posts, and inline comments will face a harder path, potentially requiring documentation restructuring before the AI transformation pipeline can be effective.
-- **Ongoing maintenance is zero** — if the pipeline generates from the existing documentation source of truth. The AI docs update automatically when the human docs update.
+- **Ongoing maintenance is extremely low if not zero** — if the pipeline generates from the existing documentation source of truth. The AI docs update automatically when the human docs update.
 - **Package size increase is modest.** Markdown is lightweight. The entire Design Factory `.ai/` folder — covering 56 components with APIs, examples, guidelines, and demos — compresses to a fraction of the size of a typical `node_modules` tree. For most libraries, the documentation would add less than the size of a single source map file.
 
 For libraries that lack structured documentation entirely, adopting this standard may serve as a catalyst for improving documentation overall — a secondary benefit that accrues to human consumers as well.
@@ -248,7 +252,7 @@ We propose a minimal, ecosystem-agnostic specification for co-packaging document
 
 ### 7.1 Directory Convention
 
-Libraries SHOULD include a `docs/` directory at the root of the published package containing structured markdown documentation.
+Libraries SHOULD include a `docs/` directory at the root of the published package containing structured markdown documentation. The choice of a plain, visible directory over a hidden one (such as the `.ai/` directory used by the Design Factory reference implementation, Section 4) is deliberate: the documentation is intended for both human and machine consumers and should be plainly visible in the installed package.
 
 ```
 package-root/
@@ -443,7 +447,7 @@ The ecosystem can support adoption at all tiers. Even Tier 1 — a well-written 
 This paper proposes a new industry standard. For the standard to achieve the ecosystem-wide adoption it aspires to, it needs a governance path. We propose the following trajectory:
 
 1. **Community RFC phase (current).** This paper serves as the initial request for comments. We invite feedback, critiques, and counter-proposals from library authors, AI tool vendors, and the developer community.
-2. **Working group formation.** Interested parties form a cross-ecosystem working group to refine the specification, address edge cases, and produce a formal specification document. Natural homes for this working group include the OpenJS Foundation (for npm), the Python Packaging Authority (for PyPI), or a cross-ecosystem body.
+2. **Working group formation.** Interested parties form a cross-ecosystem working group to refine the specification, address edge cases, produce a formal specification document, and develop the public CoDocBench evaluation suite (Section 2.3) for validating the standard's effectiveness. Natural homes for this working group include the OpenJS Foundation (for npm), the Python Packaging Authority (for PyPI), or a cross-ecosystem body.
 3. **Tool vendor alignment.** As the specification stabilizes, AI tool vendors implement auto-discovery of `docs/` directories, reducing the dependency on instruction file conventions and providing the agent-side infrastructure for the standard.
 4. **Registry integration.** Package registries adopt metadata signals for co-packaged documentation, providing visibility and incentives for adoption.
 
@@ -501,7 +505,7 @@ Over time, library authors began shipping types directly in their packages (`"ty
 
 ## 12. Conclusion
 
-The separation of code and documentation made sense when the documentation consumer was a human with a web browser. Keeping this as the de factor standard no longer makes sense when the main consumer is an AI agent with a file reader.
+The separation of code and documentation made sense when the documentation consumer was a human with a web browser. Keeping this as the de facto standard no longer makes sense when the main consumer is an AI agent with a file reader.
 
 The Think Inside the Box Principle — everything in one box — is a proven model for product delivery. Applied to software libraries, it means shipping structured, AI-optimized documentation alongside the code in the same package artifact. The benefits are significant (more accurate AI-generated code, version-matched docs, offline capability) and the costs are negligible (markdown is small, generation pipelines are automatable).
 

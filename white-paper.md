@@ -246,6 +246,8 @@ This is a classic network effect. The more libraries that adopt the standard, th
 
 We propose a minimal, ecosystem-agnostic specification for co-packaging documentation with library code.
 
+The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", and "MAY" in this section are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), as clarified by [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174), when, and only when, they appear in all capitals, as shown here.
+
 ### 7.1 Directory Convention
 
 Libraries SHOULD include a `docs/` directory at the root of the published package containing structured markdown documentation.
@@ -253,7 +255,7 @@ Libraries SHOULD include a `docs/` directory at the root of the published packag
 ```
 package-root/
 ├── docs/
-|   ├── README.md           # Entry point: Describes the 5 Ws (What, When, Why, Where and HoW)
+|   ├── README.md           # Entry point: library overview (see Section 7.2)
 │   ├── index.md            # What the library provides - describes the docs folder structure
 │   ├── getting-started.md  # Quick start guide
 │   └── lib-dir/            # Library specific directory
@@ -268,7 +270,7 @@ package-root/
 
 Every `docs/` directory MUST contain a README.md file that serves as the entry point.
 
-This file SHOULD describe the 5 Ws (What, When, Why, Where and HoW). This should allow an AI agent to get an overview of the library and reassure itself that it is indeed in the correct directory for the task it is trying to complete.
+This file SHOULD cover the library's purpose (what it does), scope (what it does and does not cover), intended audience, the package version it describes, and the structure of the `docs/` directory. This should allow an AI agent to get an overview of the library and reassure itself that it is indeed in the correct directory for the task it is trying to complete.
 
 ### 7.3 Index File
 
@@ -284,7 +286,7 @@ The index file enables the agent to discover what's available and selectively re
 
 ### 7.4 Documentation Files
 
-Documentation files **SHOULD** be plain markdown and **SHOULD** follow these guidelines:
+Documentation files **SHOULD** be plain markdown (UTF-8 encoded) and **SHOULD** follow these guidelines:
 
 - **One concern per file.** Separate API reference, usage examples, and guidelines into distinct files. This enables selective reading within context window constraints.
 - **Machine-parseable structure.** Use consistent heading levels, code blocks with language tags, and markdown tables for structured data.
@@ -307,7 +309,7 @@ To accommodate this evolution, the `docs/` directory MAY include an optional `ma
 }
 ```
 
-This manifest serves as a machine-readable metadata layer that future tooling can extend (e.g., adding `"formats": ["markdown", "embeddings"]` when an embeddings file is included). The key design constraint is **additive evolution**: new formats and metadata fields can be added without breaking agents that only understand markdown. The markdown files remain the universal baseline; structured formats are optional enhancements.
+This manifest serves as a machine-readable metadata layer that future tooling can extend (e.g., adding `"formats": ["markdown", "embeddings"]` when an embeddings file is included). The key design constraint is **additive evolution**: new formats and metadata fields can be added without breaking agents that only understand markdown. The markdown files remain the universal baseline; structured formats are optional enhancements. To avoid drift from the package's own metadata, `package_name` and `package_version` SHOULD be generated automatically at build or packaging time rather than maintained by hand (see Section 7.7).
 
 ### 7.5 Discovery Mechanism
 
@@ -432,7 +434,7 @@ The cost of building a documentation generation pipeline is real (see Section 6.
 - **Tier 2 (moderate effort):** Generate structured markdown from existing doc comments (JSDoc, Javadoc, docstrings) using widely available tools. This is a one-time build step.
 - **Tier 3 (full investment):** Build a transformation pipeline from your documentation source (Sphinx, Docusaurus, custom CMS) to structured `docs/` output. This is the aspirational target but not the entry bar.
 
-The ecosystem can support adoption at all tiers. Even Tier 1 — a well-written README.md file describing the library's 5 Ws and its primary APIs — provides meaningful value over no documentation at all.
+The ecosystem can support adoption at all tiers. Even Tier 1 — a well-written README.md file covering the library's purpose, scope, and primary APIs (Section 7.2) — provides meaningful value over no documentation at all.
 
 ---
 
@@ -518,15 +520,17 @@ This paper proposes that standard. We invite library authors, package registry m
 
 ## References
 
-1. Design Factory AI Documentation Architecture — [Internal technical documentation, 2026.](https://github.com/Amadeus-xDLC/design-factory.design-system/blob/main/doc/AI/README.md)
+1. Design Factory AI Documentation Architecture — Internal technical documentation, 2026. To be made publicly available as part of Design Factory's open-sourcing [TODO: public repository link when available].
 2. Model Context Protocol (MCP) Specification — [Anthropic, 2025.](https://modelcontextprotocol.io/specification/2025-11-25)
-3. `AGENTS.md` Convention — [Emerging multi-tool convention for AI coding agent instructions.](https://github.com/Amadeus-xDLC/design-factory.design-system/blob/main/doc/AI/README.md)
+3. `AGENTS.md` Convention — [Emerging multi-tool convention for AI coding agent instructions.](https://agents.md/)
 4. DefinitelyTyped — [Community-maintained TypeScript type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped)
 5. OWASP LLM Top 10 — [Prompt Injection risks in LLM applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 6. npm Provenance — [Supply chain security for npm packages](https://docs.npmjs.com/generating-provenance-statements)
 7. Sigstore — [Software signing and transparency for open source](https://www.sigstore.dev/)
 8. [OpenJS Foundation](https://openjsf.org/)
 9. Python Packaging Authority [(PyPA)](https://www.pypa.io/)
+10. S. Bradner — [RFC 2119: Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/rfc/rfc2119)
+11. B. Leiba — [RFC 8174: Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/rfc/rfc8174)
 
 ---
 

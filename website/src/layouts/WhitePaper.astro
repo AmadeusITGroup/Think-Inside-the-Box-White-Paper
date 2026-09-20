@@ -21,10 +21,9 @@ const title = frontmatter?.title ?? 'Think Inside the Box — White Paper';
 			(() => {
 				try {
 					const stored = localStorage.getItem('theme');
-					const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-					document.documentElement.dataset.theme = stored || (prefersDark ? 'dark' : 'light');
+					document.documentElement.dataset.theme = stored || 'dark';
 				} catch {
-					document.documentElement.dataset.theme = 'light';
+					document.documentElement.dataset.theme = 'dark';
 				}
 			})();
 		</script>

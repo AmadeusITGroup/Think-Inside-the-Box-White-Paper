@@ -152,7 +152,7 @@ const base = import.meta.env.BASE_URL;
 		position: absolute;
 		inset: -2% -6% 0;
 		z-index: -2;
-		display: flex;
+		display: none;
 		align-items: center;
 		justify-content: center;
 		opacity: 0.45;
@@ -336,6 +336,7 @@ const base = import.meta.env.BASE_URL;
 	}
 
 	:global(:root[data-theme='dark']) .hero-bg {
+		display: flex;
 		opacity: 0.32;
 	}
 

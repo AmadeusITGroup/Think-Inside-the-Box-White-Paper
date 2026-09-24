@@ -418,7 +418,34 @@ Training data has a cutoff date. Every library release after that date is invisi
 
 Source code tells the agent _what_ exists but not _how to use it correctly._ It doesn't convey design intent, usage guidelines, do/don't rules, accessibility requirements, or idiomatic patterns. Documentation is the bridge between "what the code does" and "how to use it well."
 
-### 9.6 "This doesn't scale to deep dependency graphs."
+### 9.6 "Won't agents just get good at browsing the web?"
+
+They likely will. Agent web-browsing capabilities are improving, and this paper assumes they will continue to do so.
+
+But even with perfect browsing, co-packaged documentation wins on properties that browsing can never provide:
+
+- **Version match.** A browsing agent finds the documentation the library's website currently hosts, this is typically the latest release. Co-packaged documentation describes the exact version installed in the project, which in practice is often not the latest.
+- **Offline and air-gapped use.** Secure enterprise networks, regulated environments have no reliable internet access. Local files work everywhere the installed package works.
+- **Latency.** Every web fetch is a network round trip involving DNS, TLS, page rendering, and HTML parsing. A local file read is effectively instant and agents perform hundreds of reads per session.
+- **Determinism.** Websites change between requests: content is reorganized, redesigned, A/B tested. The same query can return different content on different days. A co-packaged file is byte-identical for every agent, every session, every time.
+- **Corporate network restrictions.** Documentation portals behind authentication, SSO, or VPNs are unreachable to a browsing agent. Local files have no such gate.
+- **Anti-bot controls.** Even publicly available documentation may sit behind CAPTCHAs, JavaScript challenges, bot detection, or aggressive rate limits. These controls are reasonable defenses for a website but can block or degrade an agent's access. A local file does not need to prove that its reader is human.
+- **Security.** Every page a browsing agent retrieves is untrusted content the agent must ingest and obey-like text; a hijacked site, an injected instruction, or a lookalike domain can steer code generation. Co-packaged documentation arrives through the same vetted, integrity-checked channel as the code itself, so the trust boundary does not widen. Neither source is risk-free (Section 8 addresses prompt injection in co-packaged docs) but browsing multiplies the attack surface with the entire open web.
+
+Better browsing raises the floor for agents but it does not close the version-match, availability, latency, or determinism gaps, because those are properties of _where the documentation lives_, not of how capable the reader is. Section 9.3 addresses today's format mismatch; this objection fails even on tomorrow's capabilities.
+
+### 9.7 "Why not point the agent at the git repository?"
+
+Reading the repository or raw files served from a Git host is useful, but the repository is a weaker source of truth than the installed package:
+
+- **Repositories drift from releases.** The default branch reflects unreleased work in progress. An agent reading it may learn APIs that have not shipped yet, or that shipped with different signatures.
+- **Tags are not guarantees.** Tags can move, be renamed, or be deleted, and they need not correspond exactly to what the registry distributed. What `npm install` (or `pip install`, or the Maven equivalent) placed in the project's dependencies is the only version that matters, and it is a registry artifact, not a git checkout.
+- **Published registry artifacts are immutable and version-locked.** npm, PyPI, and Maven Central do not allow a published version to be overwritten, barring exceptional removals. The documentation inside `example-lib@2.3.1` today is the documentation inside `example-lib@2.3.1` forever, and it is guaranteed to describe the exact code it accompanies.
+- **Access may require authentication.** Private repositories, SSO-gated Git hosts, and rate-limited APIs introduce friction and failure modes. The installed package is already local; permissions were resolved at install time.
+
+The registry artifact is the contract between the library author and the consumer. The repository is the workshop. Agents should read the contract.
+
+### 9.8 "This doesn't scale to deep dependency graphs."
 
 A typical Node.js project has hundreds to thousands of transitive dependencies. If every one ships `docs/` documentation, does the agent drown in documentation?
 
@@ -430,7 +457,7 @@ This is a legitimate concern, and the answer is **scoped relevance, not exhausti
 
 In practice, a developer typically interacts directly with 5–20 libraries in a given coding session. The agent needs docs for those libraries, not for the entire dependency tree. This is the same scoping that developers apply naturally — you don't read the docs for every transitive dependency; you read the docs for the libraries you're calling.
 
-### 9.7 "The generation pipeline is too complex for most libraries."
+### 9.9 "The generation pipeline is too complex for most libraries."
 
 The cost of building a documentation generation pipeline is real (see Section 6.1). However, the standard is designed for **incremental adoption**:
 

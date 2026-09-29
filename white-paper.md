@@ -3,8 +3,8 @@
 ### A White Paper on Co-Packaging Code and AI-Optimized Documentation as an Industry Standard
 
 **Authors:** AI Documentation Working Group - Andres IGEA OVIEDO (andres.igeaoviedo@amadeus.com), Andrea SCORTI (andrea.scorti@amadeus.com)  
-**Date:** 7th of July 2026  
-**Version:** 1.0
+**Date:** 29th of September 2026  
+**Version:** 1.1
 
 ---
 
@@ -12,7 +12,7 @@
 
 The rapid adoption of AI coding assistants — GitHub Copilot, Claude, Codex, and others — has fundamentally changed how developers consume software libraries. Yet the ecosystem's documentation infrastructure remains anchored in a pre-AI paradigm: code ships in a package, documentation lives elsewhere. This disconnect forces AI agents to operate without the contextual knowledge they need, producing incorrect API usage, outdated patterns, and hallucinated interfaces.
 
-This paper argues for a new industry standard: **co-packaged documentation** — the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable artifact. We call this the _Think Inside the Box Principle_: everything the consumer needs arrives in one box.
+This paper argues for a new industry standard: **co-packaged documentation (CoDoc)** — the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable artifact. We call this the _Think Inside the Box Principle_: everything the consumer needs arrives in one box.
 
 We present a reference implementation from the Design Factory design system, demonstrate that the approach works across package ecosystems (npm, pip, Maven), and propose a minimal specification that library authors can adopt today.
 
@@ -91,7 +91,57 @@ To close this evidence gap, the authors intend to develop **CoDocBench**, a publ
 
 ---
 
-## 3. The Think Inside the Box Principle
+## 3. Related Work and Adjacent Conventions
+
+CoDoc does not exist in a vacuum. Several existing conventions already address fragments of the problem this paper targets. This section surveys the closest adjacent work. Analysing this work reveals an emerging pattern: existing efforts focus on the _format_ problem (how to write documentation for AI consumption) or on providing _hosted retrieval_ (serving documentation from a registry or third party), but none solve the _delivery and logistics_ problem: getting version-matched documentation onto the agent's filesystem, inside the package artifact.
+
+### 3.1 llms.txt: The Right Format in the Wrong Location
+
+The closest existing convention is `llms.txt`, a proposal that websites publish a markdown file `/llms.txt` at the site's root or at any path within it, with an optional `/llms-full.txt` containing the entire collection of the site's core content so that AI agents can consume its content without parsing HTML. It has seen adoption across some documentation sites and developer tools.
+
+`llms.txt` gets the format right: curated markdown, an index enabling selective reading, prose that can be mixed with code examples. These are some of the same properties Section 8.4 specifies for CoDoc documentation files, and the convergence is encouraging. The ecosystem is independently arriving at markdown as the canonical AI-consumable format.
+
+Where `llms.txt` differs is _location_, and location is precisely the problem. An `llms.txt` file lives on a website, so the versioning, offline, and determinism arguments of Section 10.6 apply to it directly:
+
+- **Version mismatch.** A site's `llms-full.txt` describes the version the site currently hosts, not necessarily the version installed in the developer's project.
+- **Availability.** It requires network access and fails in air-gapped environments, CI pipelines, and restricted corporate networks.
+- **Determinism and trust.** Its content can change between requests, and it is untrusted, unaudited web content the agent must ingest.
+
+The two conventions are complementary: `llms.txt` answers "how should a _website_ serve AI agents?", while CoDoc answers "how should a _package_ serve AI agents?".
+
+### 3.2 Hosted Documentation Intermediaries
+
+A growing category of services such as Context7, DeepWiki, and similar documentation-serving layers index library documentation or source repositories and serve the result to AI agents, typically through MCP tools or web interfaces. These services demonstrate real demand for agent-consumable documentation and are genuinely useful stopgaps.
+
+In the framing of this paper, however, they are **probabilistic middleware** between the agent and the knowledge it requires (Section 6.2):
+
+- **Retrieval is not guaranteed.** The agent must decide to query the service, the service must have indexed the library, and the indexed version must match the installed one. Each step is an independent failure point.
+- **Third-party maintenance repeats history.** The content is curated by someone other than the library author, on infrastructure the author does not control. This is the DefinitelyTyped logistics problem again (Section 12): decoupled maintenance drifts silently.
+- **The trust boundary widens.** Every hosted intermediary is another party whose content the agent ingests and whose availability the workflow depends on.
+
+These services are a **valuable bridge** for the long tail of libraries that ship no agent-consumable documentation at all. **But a bridge is not a foundation.** The authoritative, version-matched source should ship from the library author, inside the package.
+
+### 3.3 Agent Instruction Conventions: Complementary Infrastructure
+
+A parallel set of conventions has emerged for instructing agents how to behave inside a project: `AGENTS.md`, `.github/copilot-instructions.md`, Cursor rules, and their tool-specific variants. CoDoc does not compete with these conventions; it gives them something stable to point at.
+
+Instruction files are _pointers_; co-packaged documentation is the _pointed-at content_. Without CoDoc, an instruction file that wants to ground the agent in a library's API can only point at a URL — inheriting the version-mismatch, availability, and determinism problems of Section 10.6. With CoDoc, the same instruction file can point out to the agent that all software libraries have co-packaged documentation alongside the library code within the same distributable artifact. CoDoc scales elegantly and avoids the hardcoding of URLs anywhere in a software engineering project.
+This is exactly the two-tier discovery model defined in Section 8.5: auto-discovery of `docs/` directories as the primary mechanism, instruction-file integration as the supplementary channel.
+
+### 3.4 Summary
+
+| Convention                                 | AI-optimized format                    | Version-matched            | Offline-capable | Maintained at the source  |
+| ------------------------------------------ | -------------------------------------- | -------------------------- | --------------- | ------------------------- |
+| `llms.txt`                                 | Yes                                    | Not guaranteed             | No              | Yes                       |
+| Hosted intermediaries (Context7, DeepWiki) | Yes                                    | Sometimes (indexed version)| No              | No (third party)          |
+| Instruction files (`AGENTS.md`, etc.)      | N/A — instructions, not documentation  | N/A                        | Yes             | N/A (consumer-authored)   |
+| **CoDoc**                                  | Yes                                    | Yes                        | Yes             | Yes                       |
+
+No existing convention delivers version-matched, AI-optimized documentation _inside the package artifact_. This specific combination is CoDoc's contribution.
+
+---
+
+## 4. The Think Inside the Box Principle
 
 Some physical goods companies' success is built on a deceptively simple idea: **everything you need comes in one box.**
 For instance, when you purchase a bookcase, the box contains the panels, the shelves, the screws, the dowels, the cam locks, and — _critically_ — the assembly instructions. You do not need to visit a website to look up how to assemble it. You do not need to search YouTube for a tutorial. The instructions are _right there_, designed to be consumed alongside the product, version-matched and complete.
@@ -116,11 +166,11 @@ The key insight is that **the consumer of library documentation is changing.** H
 
 ---
 
-## 4. Design Factory: A Reference Implementation
+## 5. Design Factory: A Reference Implementation
 
 The Design Factory design system provides a concrete implementation of co-packaged documentation. Analyzing its architecture reveals patterns that generalize across ecosystems.
 
-### 4.1 What Ships in the Package
+### 5.1 What Ships in the Package
 
 Design Factory publishes the following structure inside its npm package:
 
@@ -144,13 +194,13 @@ Design Factory publishes the following structure inside its npm package:
 
 This is **the documentation, versioned and shipped with the code.** When a developer runs `npm install @design-factory/design-factory`, they receive not just the Angular components but a complete, structured knowledge base that any AI agent can navigate.
 
-> **A note on the `.ai/` directory name.** Design Factory's first implementation predates the current CoDoc standard proposed in Section 7, which specifies a plain `docs/` directory instead of a hidden `.ai/` directory. Early feedback on the `.ai/` convention recommended a location that is visible and accessible to both humans and AI agents: hidden dot-directories are easy to overlook in file explorers, and some tools exclude them from search and indexing by default. Design Factory will update its package structure to conform to the standard proposed in this paper, and is in the process of becoming fully open-source, which will make its documentation generation pipeline available as a public reference implementation.
+> **A note on the `.ai/` directory name.** Design Factory's first implementation predates the current CoDoc standard proposed in Section 8, which specifies a plain `docs/` directory instead of a hidden `.ai/` directory. Early feedback on the `.ai/` convention recommended a location that is visible and accessible to both humans and AI agents: hidden dot-directories are easy to overlook in file explorers, and some tools exclude them from search and indexing by default. Design Factory will update its package structure to conform to the standard proposed in this paper, and is in the process of becoming fully open-source, which will make its documentation generation pipeline available as a public reference implementation.
 
-### 4.2 How the Agent Uses It
+### 5.2 How the Agent Uses It
 
 The integration works through two complementary discovery mechanisms:
 
-**Auto-discovery (preferred).** AI tool vendors are encouraged to automatically detect `.ai/` directories in installed dependencies (see Section 10.4). When an agent encounters an unfamiliar API, it scans for a `.ai/index.md` in the relevant package and navigates from there. This requires zero configuration from the consuming developer.
+**Auto-discovery (preferred).** AI tool vendors are encouraged to automatically detect `.ai/` directories in installed dependencies (see Section 11.4). When an agent encounters an unfamiliar API, it scans for a `.ai/index.md` in the relevant package and navigates from there. This requires zero configuration from the consuming developer.
 
 **Explicit instructions (supplementary).** For tools that do not yet support auto-discovery, a standard instructions file (`AGENTS.md`) in the project root can direct the agent to `.ai/` folders in specific dependencies:
 
@@ -162,7 +212,7 @@ The integration works through two complementary discovery mechanisms:
 
 No web browsing. No external tools. No MCP servers. No infrastructure. Just files.
 
-### 4.3 Key Design Decisions That Generalize
+### 5.3 Key Design Decisions That Generalize
 
 Several decisions in the Design Factory implementation reflect principles that apply to any library:
 
@@ -174,11 +224,11 @@ Several decisions in the Design Factory implementation reflect principles that a
 
 ---
 
-## 5. Why Static Files Are the Pragmatic Starting Point
+## 6. Why Static Files Are the Pragmatic Starting Point
 
 A natural objection is: "Wouldn't it be better to expose documentation through an MCP server, a dedicated tool, or a documentation API?" We argue that static files should be the foundation, and the reasoning is pragmatic.
 
-### 5.1 Against MCP Servers for Documentation
+### 6.1 Against MCP Servers for Documentation
 
 The Model Context Protocol (MCP) allows AI agents to call external tools during a conversation. An MCP server for a library could offer tools like `get_component_docs(name)` or `search_api(query)`. However we have to highlight the following disadvantages:
 
@@ -187,7 +237,7 @@ The Model Context Protocol (MCP) allows AI agents to call external tools during 
 - **Operational burden:** An MCP server requires installation, configuration, and a running process. Markdown files in the package require nothing.
 - **MCP is for operations, not reference.** MCP excels when the agent needs to _do_ things — query a database, manipulate a design tool. Reading documentation is retrieval, not action. The agent already knows how to read files.
 
-### 5.2 Against Skills and Prompt Templates
+### 6.2 Against Skills and Prompt Templates
 
 Skills (pre-written prompt expansions) inject multi-step workflows when triggered. A "use library X" skill could instruct the agent to read docs in a specific order. However:
 
@@ -199,11 +249,11 @@ Skills (pre-written prompt expansions) inject multi-step workflows when triggere
   Co-packaged documentation, read directly from the filesystem, is the cheapest possible retrieval mechanism. Why make software engineering more expensive than it needs to be by introducing probabilistic middleware between the agent and the knowledge it requires?
 - **Distribution and logistics repeat history.** Who maintains the skills? Who distributes them? Who ensures they stay current across versions? This is the DefinitelyTyped story replaying in real time. The TypeScript community learned — painfully, over years — that community-maintained type definitions maintained separately from the library source inevitably drift, decay, and fragment. Skills and prompt templates face the identical fate: scattered across repositories, maintained by volunteers with varying commitment, silently stale when the library ships a breaking change. The ecosystem already lived through this with `@types/` packages. Co-packaged documentation is the lesson learned: ship it at the source, version it with the code, and eliminate the logistical nightmare of distributed, decoupled maintenance.
 
-### 5.3 Against Sub-Agents
+### 6.3 Against Sub-Agents
 
 Spawning a sub-agent to research library documentation adds isolation (the sub-agent can't see the code being written), inconsistency (parallel sub-agents produce uncoordinated results), and overhead that exceeds the cost of direct file reads.
 
-### 5.4 The Principle
+### 6.4 The Principle
 
 > **Don't add infrastructure when the agent's existing capabilities — reading files and following references — already solve the problem.**
 
@@ -211,9 +261,9 @@ The simplest delivery mechanism is also the most robust: files shipped in the pa
 
 ---
 
-## 6. The Economics of Co-Packaged Documentation
+## 7. The Economics of Co-Packaged Documentation
 
-### 6.1 Cost to Library Authors
+### 7.1 Cost to Library Authors
 
 The incremental cost of co-packaging documentation is low:
 
@@ -224,7 +274,7 @@ The incremental cost of co-packaging documentation is low:
 
 For libraries that lack structured documentation entirely, adopting this standard may serve as a catalyst for improving documentation overall — a secondary benefit that accrues to human consumers as well.
 
-### 6.2 Value to Consumers
+### 7.2 Value to Consumers
 
 The value is disproportionately large:
 
@@ -233,7 +283,7 @@ The value is disproportionately large:
 - **Offline capability.** Works in air-gapped environments, CI pipelines, corporate networks with restricted internet access.
 - **Zero configuration.** No MCP servers to set up, no API keys to configure, no documentation URLs to bookmark.
 
-### 6.3 Value to the Ecosystem
+### 7.3 Value to the Ecosystem
 
 At ecosystem scale, co-packaged documentation creates a virtuous cycle:
 
@@ -246,20 +296,20 @@ This is a classic network effect. The more libraries that adopt the standard, th
 
 ---
 
-## 7. Proposed Standard: Co-packaged Documentation (CoDoc)
+## 8. Proposed Standard: Co-packaged Documentation (CoDoc)
 
 We propose a minimal, ecosystem-agnostic specification for co-packaging documentation with library code.
 
 The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", and "MAY" in this section are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), as clarified by [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174), when, and only when, they appear in all capitals, as shown here.
 
-### 7.1 Directory Convention
+### 8.1 Directory Convention
 
-Libraries SHOULD include a `docs/` directory at the root of the published package containing structured markdown documentation. The choice of a plain, visible directory over a hidden one (such as the `.ai/` directory used by the Design Factory reference implementation, Section 4) is deliberate: the documentation is intended for both human and machine consumers and should be plainly visible in the installed package.
+Libraries SHOULD include a `docs/` directory at the root of the published package containing structured markdown documentation. The choice of a plain, visible directory over a hidden one (such as the `.ai/` directory used by the Design Factory reference implementation, Section 5) is deliberate: the documentation is intended for both human and machine consumers and should be plainly visible in the installed package.
 
 ```
 package-root/
 ├── docs/
-|   ├── README.md           # Entry point: library overview (see Section 7.2)
+|   ├── README.md           # Entry point: library overview (see Section 8.2)
 │   ├── index.md            # What the library provides - describes the docs folder structure
 │   ├── getting-started.md  # Quick start guide
 │   └── lib-dir/            # Library specific directory
@@ -270,13 +320,13 @@ package-root/
 └── package.json            # (or setup.py, pom.xml, Cargo.toml, etc.)
 ```
 
-### 7.2 README File
+### 8.2 README File
 
 Every `docs/` directory MUST contain a README.md file that serves as the entry point.
 
 This file SHOULD cover the library's purpose (what it does), scope (what it does and does not cover), intended audience, the package version it describes, and the structure of the `docs/` directory. This should allow an AI agent to get an overview of the library and reassure itself that it is indeed in the correct directory for the task it is trying to complete.
 
-### 7.3 Index File
+### 8.3 Index File
 
 Every `docs/` directory MUST contain an index.md file that serves as the catalogue of what the `docs/` directory provides.
 
@@ -288,7 +338,7 @@ This file SHOULD:
 
 The index file enables the agent to discover what's available and selectively read only what's relevant.
 
-### 7.4 Documentation Files
+### 8.4 Documentation Files
 
 Documentation files **SHOULD** be plain markdown (UTF-8 encoded) and **SHOULD** follow these guidelines:
 
@@ -297,7 +347,7 @@ Documentation files **SHOULD** be plain markdown (UTF-8 encoded) and **SHOULD** 
 - **Working code examples.** Include complete, copy-pasteable code snippets — not fragments that require surrounding context to compile.
 - **Version-awareness.** If behavior differs across versions, document the current version only. The docs ship with the version they describe.
 
-#### 7.4.1 Forward-Compatibility Provision
+#### 8.4.1 Forward-Compatibility Provision
 
 Markdown is the recommended baseline format because current-generation LLMs process it natively and it requires no parsing infrastructure. However, agent architectures are evolving rapidly — future agents may prefer embeddings, structured schemas (JSON-LD, OpenAPI fragments), or indexed databases for documentation retrieval.
 
@@ -313,9 +363,9 @@ To accommodate this evolution, the `docs/` directory MAY include an optional `ma
 }
 ```
 
-This manifest serves as a machine-readable metadata layer that future tooling can extend (e.g., adding `"formats": ["markdown", "embeddings"]` when an embeddings file is included). The key design constraint is **additive evolution**: new formats and metadata fields can be added without breaking agents that only understand markdown. The markdown files remain the universal baseline; structured formats are optional enhancements. To avoid drift from the package's own metadata, `package_name` and `package_version` SHOULD be generated automatically at build or packaging time rather than maintained by hand (see Section 7.7).
+This manifest serves as a machine-readable metadata layer that future tooling can extend (e.g., adding `"formats": ["markdown", "embeddings"]` when an embeddings file is included). The key design constraint is **additive evolution**: new formats and metadata fields can be added without breaking agents that only understand markdown. The markdown files remain the universal baseline; structured formats are optional enhancements. To avoid drift from the package's own metadata, `package_name` and `package_version` SHOULD be generated automatically at build or packaging time rather than maintained by hand (see Section 8.7).
 
-### 7.5 Discovery Mechanism
+### 8.5 Discovery Mechanism
 
 The standard defines a two-tier discovery mechanism, ordered by preference:
 
@@ -327,7 +377,7 @@ Auto-discovery as the primary mechanism reduces the fragility of depending on in
 
 The standard acknowledges that no single instruction file convention (`AGENTS.md`, `.github/copilot-instructions.md`, etc.) has achieved formal standardization as of this writing.
 
-### 7.6 Ecosystem-Specific Packaging
+### 8.6 Ecosystem-Specific Packaging
 
 | Ecosystem     | Include `docs/` via                                                 |
 | ------------- | ------------------------------------------------------------------- |
@@ -337,7 +387,7 @@ The standard acknowledges that no single instruction file convention (`AGENTS.md
 | **NuGet**     | Content files in `.nuspec` or `<Content>` items in `.csproj`        |
 | **Crates.io** | `include` field in `Cargo.toml`                                     |
 
-### 7.7 Generation, Not Duplication
+### 8.7 Generation, Not Duplication
 
 The standard **RECOMMENDS** generating `docs/` documentation from the library's existing documentation source, not maintaining it as a separate artifact. This ensures:
 
@@ -351,11 +401,11 @@ The standard does not require perfection. Shipping _partial_ AI-optimized docume
 
 ---
 
-## 8. Security Considerations
+## 9. Security Considerations
 
 Any mechanism that causes AI agents to automatically read and follow content from third-party packages introduces a **prompt injection attack surface**. This section addresses the security implications of co-packaged documentation and proposes mitigations.
 
-### 8.1 Threat Model
+### 9.1 Threat Model
 
 The primary threat is a **malicious or compromised package** that includes `docs/` content designed to manipulate agent behavior. Attack vectors include:
 
@@ -364,7 +414,7 @@ The primary threat is a **malicious or compromised package** that includes `docs
 - **Vulnerability introduction:** Documentation that recommends insecure patterns — disabling authentication, using eval, or weakening security configurations — disguised as legitimate usage guidance.
 - **Dependency confusion:** A malicious package named similarly to a popular library, shipping `docs/` documentation that redirect agent behavior toward the attacker's code.
 
-### 8.2 Mitigations
+### 9.2 Mitigations
 
 **For AI tool vendors:**
 
@@ -374,7 +424,7 @@ The primary threat is a **malicious or compromised package** that includes `docs
 
 **For library authors:**
 
-- **Plain documentation only.** The `docs/` directory should contain factual API documentation, usage examples, and guidelines. It should not contain agent instructions, system prompts, or behavioral directives. The `manifest.json` (Section 7.4.1) provides a structured metadata channel that is easier to validate than free-form markdown.
+- **Plain documentation only.** The `docs/` directory should contain factual API documentation, usage examples, and guidelines. It should not contain agent instructions, system prompts, or behavioral directives. The `manifest.json` (Section 8.4.1) provides a structured metadata channel that is easier to validate than free-form markdown.
 - **Reviewable content.** All `docs/` content should be reviewable in the package source repository. Consumers should be able to audit what documentation a package ships, just as they can audit source code.
 
 **For package registries:**
@@ -382,7 +432,7 @@ The primary threat is a **malicious or compromised package** that includes `docs
 - **Content scanning.** Registries can scan `docs/` directories for known prompt injection patterns (instruction overrides, exfiltration attempts) as part of their existing malware detection pipelines.
 - **Signing and provenance.** Package signing (npm provenance, Sigstore for PyPI) provides a chain of trust from the library author to the installed content.
 
-### 8.3 Risk Assessment
+### 9.3 Risk Assessment
 
 The prompt injection risk for co-packaged documentation is **real but bounded**. It is comparable in nature — though not in severity — to the existing risk of malicious code in dependencies (supply chain attacks). Developers already accept the risk of running third-party code; co-packaged documentation adds a surface for _influencing_ AI-generated code, which is a lower-severity vector than arbitrary code execution.
 
@@ -390,9 +440,9 @@ The mitigations above reduce the risk to an acceptable level when combined with 
 
 ---
 
-## 9. Addressing Objections
+## 10. Addressing Objections
 
-### 9.1 "This bloats package sizes."
+### 10.1 "This bloats package sizes."
 
 Markdown is extremely compact. A comprehensive documentation set for a medium-complexity library (50–100 public APIs) typically compresses to 100–500 KB. For context:
 
@@ -402,23 +452,23 @@ Markdown is extremely compact. A comprehensive documentation set for a medium-co
 
 The documentation is a rounding error in package size while providing outsized value.
 
-### 9.2 "Documentation goes stale."
+### 10.2 "Documentation goes stale."
 
 Only if maintained separately. The standard explicitly recommends _generating_ AI-friendly docs from the same source that produces human-facing documentation. When the library updates and the human docs update, the AI-optimized docs update in the same build pipeline. Staleness is a process problem, not an architectural one.
 
-### 9.3 "My library already has good docs on our website."
+### 10.3 "My library already has good docs on our website."
 
 Website-hosted documentation is optimized for human consumption: rich formatting, interactive examples, search widgets, navigation sidebars. AI agents have difficulties with this or cannot use any of this. They need plain-text files on the local filesystem. The generation pipeline transforms your existing good documentation into a format the agent can actually access.
 
-### 9.4 "AI models already know about popular libraries from training data."
+### 10.4 "AI models already know about popular libraries from training data."
 
 Training data has a cutoff date. Every library release after that date is invisible to the model. Even for well-known libraries, the agent may confuse APIs across versions, hallucinate deprecated methods, or miss new features. Co-packaged docs provide ground truth for the _exact version installed_.
 
-### 9.5 "Can't the AI just read the source code?"
+### 10.5 "Can't the AI just read the source code?"
 
 Source code tells the agent _what_ exists but not _how to use it correctly._ It doesn't convey design intent, usage guidelines, do/don't rules, accessibility requirements, or idiomatic patterns. Documentation is the bridge between "what the code does" and "how to use it well."
 
-### 9.6 "Won't agents just get good at browsing the web?"
+### 10.6 "Won't agents just get good at browsing the web?"
 
 They likely will. Agent web-browsing capabilities are improving, and this paper assumes they will continue to do so.
 
@@ -430,11 +480,11 @@ But even with perfect browsing, co-packaged documentation wins on properties tha
 - **Determinism.** Websites change between requests: content is reorganized, redesigned, A/B tested. The same query can return different content on different days. A co-packaged file is byte-identical for every agent, every session, every time.
 - **Corporate network restrictions.** Documentation portals behind authentication, SSO, or VPNs are unreachable to a browsing agent. Local files have no such gate.
 - **Anti-bot controls.** Even publicly available documentation may sit behind CAPTCHAs, JavaScript challenges, bot detection, or aggressive rate limits. These controls are reasonable defenses for a website but can block or degrade an agent's access. A local file does not need to prove that its reader is human.
-- **Security.** Every page a browsing agent retrieves is untrusted content the agent must ingest and obey-like text; a hijacked site, an injected instruction, or a lookalike domain can steer code generation. Co-packaged documentation arrives through the same vetted, integrity-checked channel as the code itself, so the trust boundary does not widen. Neither source is risk-free (Section 8 addresses prompt injection in co-packaged docs) but browsing multiplies the attack surface with the entire open web.
+- **Security.** Every page a browsing agent retrieves is untrusted content the agent must ingest and obey-like text; a hijacked site, an injected instruction, or a lookalike domain can steer code generation. Co-packaged documentation arrives through the same vetted, integrity-checked channel as the code itself, so the trust boundary does not widen. Neither source is risk-free (Section 9 addresses prompt injection in co-packaged docs) but browsing multiplies the attack surface with the entire open web.
 
-Better browsing raises the floor for agents but it does not close the version-match, availability, latency, or determinism gaps, because those are properties of _where the documentation lives_, not of how capable the reader is. Section 9.3 addresses today's format mismatch; this objection fails even on tomorrow's capabilities.
+Better browsing raises the floor for agents but it does not close the version-match, availability, latency, or determinism gaps, because those are properties of _where the documentation lives_, not of how capable the reader is. Section 10.3 addresses today's format mismatch; this objection fails even on tomorrow's capabilities.
 
-### 9.7 "Why not point the agent at the git repository?"
+### 10.7 "Why not point the agent at the git repository?"
 
 Reading the repository or raw files served from a Git host is useful, but the repository is a weaker source of truth than the installed package:
 
@@ -445,7 +495,7 @@ Reading the repository or raw files served from a Git host is useful, but the re
 
 The registry artifact is the contract between the library author and the consumer. The repository is the workshop. Agents should read the contract.
 
-### 9.8 "This doesn't scale to deep dependency graphs."
+### 10.8 "This doesn't scale to deep dependency graphs."
 
 A typical Node.js project has hundreds to thousands of transitive dependencies. If every one ships `docs/` documentation, does the agent drown in documentation?
 
@@ -457,21 +507,21 @@ This is a legitimate concern, and the answer is **scoped relevance, not exhausti
 
 In practice, a developer typically interacts directly with 5–20 libraries in a given coding session. The agent needs docs for those libraries, not for the entire dependency tree. This is the same scoping that developers apply naturally — you don't read the docs for every transitive dependency; you read the docs for the libraries you're calling.
 
-### 9.9 "The generation pipeline is too complex for most libraries."
+### 10.9 "The generation pipeline is too complex for most libraries."
 
-The cost of building a documentation generation pipeline is real (see Section 6.1). However, the standard is designed for **incremental adoption**:
+The cost of building a documentation generation pipeline is real (see Section 7.1). However, the standard is designed for **incremental adoption**:
 
 - **Tier 1 (minimal effort):** Ship your existing README and API reference as `docs/README.md`. This requires no pipeline — just copying files into the package.
 - **Tier 2 (moderate effort):** Generate structured markdown from existing doc comments (JSDoc, Javadoc, docstrings) using widely available tools. This is a one-time build step.
 - **Tier 3 (full investment):** Build a transformation pipeline from your documentation source (Sphinx, Docusaurus, custom CMS) to structured `docs/` output. This is the aspirational target but not the entry bar.
 
-The ecosystem can support adoption at all tiers. Even Tier 1 — a well-written README.md file covering the library's purpose, scope, and primary APIs (Section 7.2) — provides meaningful value over no documentation at all.
+The ecosystem can support adoption at all tiers. Even Tier 1 — a well-written README.md file covering the library's purpose, scope, and primary APIs (Section 8.2) — provides meaningful value over no documentation at all.
 
 ---
 
-## 10. A Path Forward
+## 11. A Path Forward
 
-### 10.1 Governance and Standardization
+### 11.1 Governance and Standardization
 
 This paper proposes a new industry standard. For the standard to achieve the ecosystem-wide adoption it aspires to, it needs a governance path. We propose the following trajectory:
 
@@ -482,14 +532,14 @@ This paper proposes a new industry standard. For the standard to achieve the eco
 
 The absence of a governance body is a known weakness at this stage. We address it directly rather than assuming adoption will occur organically.
 
-### 10.2 For Library Authors
+### 11.2 For Library Authors
 
 1. **Start with what you have.** If you have existing documentation (and you likely do), build a transformation pipeline that converts it to AI-friendly markdown.
 2. **Add a `docs/` directory to your package.** Include a `README.md` entry point and structured documentation files.
 3. **Integrate into your build.** Make documentation generation a build step, not a manual process. When you release a new version, the AI-optimized docs update automatically.
 4. **Provide agent instructions.** Offer a template or tool for consumers to add `docs/` references to their AI tool configuration.
 
-### 10.3 For Package Registries
+### 11.3 For Package Registries
 
 Package registries (npm, PyPI, Maven Central) can accelerate adoption by:
 
@@ -497,16 +547,16 @@ Package registries (npm, PyPI, Maven Central) can accelerate adoption by:
 - **Including documentation quality in package rankings.** Just as registries surface type definitions and test coverage, they could surface AI-optimized documentation completeness.
 - **Providing guidelines and tooling.** Publish documentation transformation tools that library authors can adopt.
 
-### 10.4 For AI Tool Vendors
+### 11.4 For AI Tool Vendors
 
 AI coding assistants can support the standard by:
 
 - **Auto-discovering `docs/` directories** in installed dependencies when no explicit instructions are configured. This is the single most impactful action tool vendors can take to reduce adoption friction.
-- **Sandboxing third-party documentation context.** Treat `docs/` content as reference material, not as system instructions, to mitigate prompt injection risks (see Section 8).
+- **Sandboxing third-party documentation context.** Treat `docs/` content as reference material, not as system instructions, to mitigate prompt injection risks (see Section 9).
 - **Indexing co-packaged documentation** for faster retrieval during code generation.
 - **Preferring co-packaged docs over training data** when both are available, since the packaged docs are version-matched and authoritative.
 
-### 10.5 For the Developer Community
+### 11.5 For the Developer Community
 
 Developers can drive adoption by:
 
@@ -516,7 +566,7 @@ Developers can drive adoption by:
 
 ---
 
-## 11. Historical Precedent: The TypeScript Analogy
+## 12. Historical Precedent: The TypeScript Analogy
 
 The co-packaged documentation proposal follows a pattern the ecosystem has seen before: **the DefinitelyTyped trajectory.**
 
@@ -532,7 +582,7 @@ Over time, library authors began shipping types directly in their packages (`"ty
 
 ---
 
-## 12. Conclusion
+## 13. Conclusion
 
 The separation of code and documentation made sense when the documentation consumer was a human with a web browser. Keeping this as the de facto standard no longer makes sense when the main consumer is an AI agent with a file reader.
 
@@ -562,6 +612,11 @@ This paper proposes that standard. We invite library authors, package registry m
 9. Python Packaging Authority [(PyPA)](https://www.pypa.io/)
 10. S. Bradner — [RFC 2119: Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/rfc/rfc2119)
 11. B. Leiba — [RFC 8174: Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/rfc/rfc8174)
+12. `llms.txt` — [A proposal to standardize on using an /llms.txt file to provide LLM-friendly website content](https://llmstxt.org/) (Jeremy Howard, 2024)
+13. Context7 — [Up-to-date Code Docs For Any Prompt](https://github.com/upstash/context7)
+14. DeepWiki — [Cognition AI: AI-generated documentation wikis for public code repositories](https://deepwiki.com/)
+15. GitHub Copilot — [Adding repository custom instructions for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
+16. Cursor — [Cursor Rules: project-level instructions for the Cursor AI code editor](https://cursor.com/docs/rules)
 
 ---
 

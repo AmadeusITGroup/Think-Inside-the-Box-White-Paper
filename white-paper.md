@@ -309,10 +309,10 @@ Libraries SHOULD include a `docs/` directory at the root of the published packag
 ```
 package-root/
 ├── docs/
-|   ├── README.md           # Entry point: library overview (see Section 8.2)
+│   ├── README.md           # Entry point: library overview (see Section 8.2)
 │   ├── index.md            # What the library provides - describes the docs folder structure
 │   ├── getting-started.md  # Quick start guide
-│   └── lib-dir/            # Library specific directory
+│   ├── lib-dir/            # Library specific directory
 │   │   └── ...
 │   └── lib-dir-two/
 │       └── ...             # Structured documentation files

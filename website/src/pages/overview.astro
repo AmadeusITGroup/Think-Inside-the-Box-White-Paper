@@ -775,11 +775,35 @@ const base = import.meta.env.BASE_URL;
 		--g1: #0ea5e9;
 		--g2: #6366f1;
 		--g3: #d946ef;
+		--band-bg: var(--surface-soft);
+		--band-text: var(--text);
+		--band-muted: var(--text-muted);
+		--band-card: var(--surface);
+		--band-border: var(--border);
+		--panel-bg: var(--surface);
+		--panel-border: var(--border);
+		--panel-shadow: rgba(15, 23, 42, 0.06);
+		--tree-text: var(--text);
+		--tree-dir: var(--accent);
+		--tree-comment: var(--text-muted);
+		--tree-highlight: #a21caf;
+		--crisis-color: #f6119e;
+	}
+
+	:global(:root[data-theme='dark']) .overview {
 		--band-bg: #070b16;
 		--band-text: #e6edf7;
 		--band-muted: #96a3b8;
 		--band-card: rgba(148, 163, 184, 0.08);
 		--band-border: rgba(148, 163, 184, 0.18);
+		--panel-bg: #0b1322;
+		--panel-border: rgba(148, 163, 184, 0.22);
+		--panel-shadow: rgba(2, 6, 23, 0.35);
+		--tree-text: #cbd5e1;
+		--tree-dir: #7dd3fc;
+		--tree-comment: #64748b;
+		--tree-highlight: #f0abfc;
+		--crisis-color: #fb7185;
 	}
 
 	.wrap {
@@ -805,8 +829,8 @@ const base = import.meta.env.BASE_URL;
 			radial-gradient(50% 45% at 88% 100%, rgba(168, 85, 247, 0.14), transparent 62%),
 			var(--band-bg);
 		color: var(--band-text);
-		border-top: 1px solid rgba(148, 163, 184, 0.14);
-		border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+		border-top: 1px solid var(--band-border);
+		border-bottom: 1px solid var(--band-border);
 	}
 
 	.center {
@@ -1144,12 +1168,12 @@ const base = import.meta.env.BASE_URL;
 	}
 
 	.nd-stat {
-		background: linear-gradient(165deg, #111c33, #0b1322);
-		border: 1px solid rgba(148, 163, 184, 0.22);
+		background: var(--panel-bg);
+		border: 1px solid var(--panel-border);
 		border-radius: 18px;
 		padding: 1.4rem 1.1rem;
 		text-align: center;
-		box-shadow: 0 16px 34px rgba(2, 6, 23, 0.22);
+		box-shadow: 0 16px 34px var(--panel-shadow);
 	}
 
 	.nd-num {
@@ -1245,7 +1269,7 @@ const base = import.meta.env.BASE_URL;
 		height: 26px;
 		flex-shrink: 0;
 		margin-top: 0.35rem;
-		color: #f87171;
+		color: var(--crisis-color);
 	}
 
 	.crisis-num {
@@ -1254,7 +1278,7 @@ const base = import.meta.env.BASE_URL;
 		font-weight: 800;
 		letter-spacing: -0.03em;
 		line-height: 1;
-		color: #fb7185;
+		color: var(--crisis-color);
 	}
 
 	.crisis-label {
@@ -1474,9 +1498,9 @@ const base = import.meta.env.BASE_URL;
 	.window {
 		border-radius: 18px;
 		overflow: hidden;
-		background: #0b1322;
-		border: 1px solid rgba(148, 163, 184, 0.22);
-		box-shadow: 0 24px 60px rgba(2, 6, 23, 0.35);
+		background: var(--panel-bg);
+		border: 1px solid var(--panel-border);
+		box-shadow: 0 24px 60px var(--panel-shadow);
 	}
 
 	.window-bar {
@@ -1499,22 +1523,22 @@ const base = import.meta.env.BASE_URL;
 		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 		font-size: 0.86rem;
 		line-height: 1.85;
-		color: #cbd5e1;
+		color: var(--tree-text);
 		white-space: pre;
 		overflow-x: auto;
 	}
 
 	.tree .dir {
-		color: #7dd3fc;
+		color: var(--tree-dir);
 		font-weight: 600;
 	}
 
 	.tree .cmt {
-		color: #64748b;
+		color: var(--tree-comment);
 	}
 
 	.tree .hl {
-		color: #f0abfc;
+		color: var(--tree-highlight);
 		font-weight: 600;
 	}
 
@@ -1791,6 +1815,19 @@ const base = import.meta.env.BASE_URL;
 	}
 
 	/* ── Dark-theme tweaks for light bands ───────────────────── */
+	:global(:root[data-theme='dark']) .nd-stat {
+		background: linear-gradient(165deg, #111c33, #0b1322);
+		box-shadow: 0 16px 34px rgba(2, 6, 23, 0.22);
+	}
+
+	:global(:root[data-theme='dark']) .band-dark {
+		border-color: rgba(148, 163, 184, 0.14);
+	}
+
+	:global(:root[data-theme='dark']) .crisis-icon {
+		color: #f87171;
+	}
+
 	:global(:root[data-theme='dark']) .hero-bg {
 		display: flex;
 		opacity: 0.32;

@@ -74,5 +74,5 @@ We welcome feedback, critiques, and adoption reports. This is a community RFC â€
 ---
 
 **Authors:** AI Documentation Working Group (Andres, Andrea)  
-**Version:** 1.0  
-**Date:** July 7, 2026
+**Version:** 1.2  
+**Date:** October 23, 2026

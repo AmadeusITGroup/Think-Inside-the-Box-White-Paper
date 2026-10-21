@@ -44,3 +44,12 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Theme styling
+
+The navigation toggle stores the selected theme in local storage and sets
+`data-theme` on the document root. The default is dark mode.
+
+The overview's alternating sections, cards, and file-tree panel use theme-aware
+CSS variables. Keep light colors as the default and place dark palette overrides
+under `:global(:root[data-theme='dark'])` so both modes remain consistent.

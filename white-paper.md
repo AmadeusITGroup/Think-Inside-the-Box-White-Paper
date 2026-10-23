@@ -200,13 +200,13 @@ This is **the documentation, versioned and shipped with the code.** When a devel
 
 The integration works through two complementary discovery mechanisms:
 
-**Auto-discovery (preferred).** AI tool vendors are encouraged to automatically detect `.ai/` directories in installed dependencies (see Section 11.4). When an agent encounters an unfamiliar API, it scans for a `.ai/index.md` in the relevant package and navigates from there. This requires zero configuration from the consuming developer.
+**Auto-discovery (preferred).** AI tool vendors are encouraged to automatically detect `docs/` directories in installed dependencies (see Section 8.5 and Section 11.4). When an agent encounters an unfamiliar API, it scans for `docs/README.md` and `docs/index.md` (or `.ai/index.md` in Design Factory's initial release) in the relevant package and navigates from there. This requires zero configuration from the consuming developer.
 
-**Explicit instructions (supplementary).** For tools that do not yet support auto-discovery, a standard instructions file (`AGENTS.md`) in the project root can direct the agent to `.ai/` folders in specific dependencies:
+**Explicit instructions (supplementary).** For tools that do not yet support auto-discovery, a standard instructions file (`AGENTS.md`) in the project root can direct the agent to the co-packaged documentation folder (`docs/`, or `.ai/` in Design Factory's initial release) in specific dependencies:
 
 1. The AI agent reads `AGENTS.md` in the project root.
-2. The rules direct it to the `.ai/` folder in the installed package.
-3. The agent reads `index.md` to understand what components exist.
+2. The rules direct it to the co-packaged documentation folder in the installed package.
+3. The agent reads `index.md` (and `README.md`, where present) to understand what components exist.
 4. For a specific task (e.g., building a form with a datepicker), the agent selectively reads only the relevant docs — API, examples, guidelines.
 5. The agent produces code using the correct components, tokens, and patterns.
 

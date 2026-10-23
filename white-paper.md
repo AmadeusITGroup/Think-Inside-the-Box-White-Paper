@@ -3,8 +3,8 @@
 ### A White Paper on Co-Packaging Code and AI-Optimized Documentation as an Industry Standard
 
 **Authors:** AI Documentation Working Group - Andres IGEA OVIEDO (andres.igeaoviedo@amadeus.com), Andrea SCORTI (andrea.scorti@amadeus.com)  
-**Date:** 29th of September 2026  
-**Version:** 1.1
+**Date:** 23rd of October 2026  
+**Version:** 1.2
 
 ---
 
@@ -14,7 +14,7 @@ The rapid adoption of AI coding assistants — GitHub Copilot, Claude, Codex, an
 
 This paper argues for a new industry standard: **co-packaged documentation (CoDoc)** — the practice of shipping structured, AI-optimized documentation alongside library code within the same distributable artifact. We call this the _Think Inside the Box Principle_: everything the consumer needs arrives in one box.
 
-We present a reference implementation from the Design Factory design system, demonstrate that the approach works across package ecosystems (npm, pip, Maven), and propose a minimal specification that library authors can adopt today.
+We present a reference implementation from the Design Factory design system, demonstrate that the approach works in the npm package ecosystem, and propose a cross-ecosystem minimal specification that library authors can adopt today.
 
 We also address critical concerns around security (prompt injection via co-packaged content), forward-compatibility with evolving agent architectures, scalability across deep dependency graphs, and the practical challenges of documentation generation pipelines.
 
@@ -89,11 +89,13 @@ These are not edge cases. They are the daily experience of developers using AI t
 
 To close this evidence gap, the authors intend to develop **CoDocBench**, a public evaluation suite measuring AI-agent performance on library-usage tasks (for example, API correctness and deprecated-pattern rates) with and without co-packaged documentation, across multiple libraries and package ecosystems. CoDocBench is intended to provide measurable success criteria for the standard proposed in this paper and to invite external validation of its claims.
 
+Early third-party results already point in the expected direction. Vercel's agent evaluations targeting Next.js 16 APIs, APIs absent from model training data, found that giving agents access to the bundled documentation via a short `AGENTS.md` pointer achieved a **100% pass rate**, against a 53% baseline without documentation. A skill-based delivery of the same documentation maxed out at 79%, and without explicit instructions the skill was never invoked in 56% of cases, performing no better than baseline. Vercel's conclusion anticipates the theoretical argument of Section 6.2: always-available context outperforms on-demand retrieval, because agents often fail to recognize when they should search for documentation. Vercel now tracks this publicly on its [evals dashboard](https://nextjs.org/evals), which reports a "Success Rate with AGENTS.md" (AGENTS.md being the mechanism that points agents to the bundled Next.js documentation). CoDocBench aims to generalize such single-library results into a cross-library, cross-ecosystem benchmark.
+
 ---
 
 ## 3. Related Work and Adjacent Conventions
 
-CoDoc does not exist in a vacuum. Several existing conventions already address fragments of the problem this paper targets. This section surveys the closest adjacent work. Analysing this work reveals an emerging pattern: existing efforts focus on the _format_ problem (how to write documentation for AI consumption) or on providing _hosted retrieval_ (serving documentation from a registry or third party), but none solve the _delivery and logistics_ problem: getting version-matched documentation onto the agent's filesystem, inside the package artifact.
+CoDoc does not exist in a vacuum. Several existing conventions already address fragments of the problem this paper targets. This section surveys the closest adjacent work. Analysing this work reveals an emerging pattern: existing efforts focus on the _format_ problem (how to write documentation for AI consumption) or on providing _hosted retrieval_ (serving documentation from a registry or third party), but none solve the _delivery and logistics_ problem: getting version-matched documentation onto the agent's filesystem, inside the package artifact. That gap is now closing organically: the first registry-delivered documentation implementations have appeared in the npm ecosystem, splitting into two competing logistics models — a dedicated documentation package per library versus documentation inside the library package (Section 3.5) — validating the delivery model while underscoring the absence of a standard.
 
 ### 3.1 llms.txt: The Right Format in the Wrong Location
 
@@ -121,23 +123,56 @@ In the framing of this paper, however, they are **probabilistic middleware** bet
 
 These services are a **valuable bridge** for the long tail of libraries that ship no agent-consumable documentation at all. **But a bridge is not a foundation.** The authoritative, version-matched source should ship from the library author, inside the package.
 
-### 3.3 Agent Instruction Conventions: Complementary Infrastructure
+### 3.3 ReadMe.LLM: The Format Problem Partially Solved, the Logistics Problem Untouched
+
+The closest academic prior work is ReadMe.LLM (Wijaya et al., 2025). It proposes that library authors maintain an LLM-oriented documentation file, a structured format that pairs rules and a library description with function signatures and usage examples. Attaching the file to a query improved code-generation accuracy for niche libraries to near-perfect levels. In one case study, all tested models achieved a 100% success rate. These results provide empirical support for the value of author-maintained, AI-oriented documentation, which CoDoc aims to standardize.
+
+ReadMe.LLM gets two things right: the documentation is authored _at the source_ by the library maintainer and maintained alongside the code as part of the software development lifecycle. Its delivery mechanism, however, stops at the repository. The workflows described in the paper make the gap clear. The engineer is expected to _"copy the ReadMe.LLM from the library's repository, then paste it into an LLM, and finally enter their query"_. That is a manual step for every query. The envisioned agent workflow asks the agent to _locate_ the file in a repository, ideally through MCP.
+
+Both approaches inherit the problems discussed in Sections 3.2 and 10.7: the copy may not specify a version or match the installed artifact, the agent has to decide to retrieve it, and retrieval adds a tool hop for information already available on the filesystem. The file's stated ambitions include prioritizing its contents, maintaining context history across files, and navigating repositories. Those are useful for a prompt payload attached to a query, but they differ from the local corpus an agent selectively reads (Section 8.4).
+
+ReadMe.LLM addresses the format problem, but not the delivery problem. It puts AI-oriented documentation in the repository, leaving the final step of getting version-matched documentation into the installed package unsolved. CoDoc addresses that last step. ReadMe.LLM's 100% single-library result also anticipates the independent industrial result in Section 2.3 (Vercel's evals). CoDocBench (Section 2.3) will test whether such results generalize across libraries and ecosystems.
+
+### 3.4 Agent Instruction Conventions: Complementary Infrastructure
 
 A parallel set of conventions has emerged for instructing agents how to behave inside a project: `AGENTS.md`, `.github/copilot-instructions.md`, Cursor rules, and their tool-specific variants. CoDoc does not compete with these conventions; it gives them something stable to point at.
 
 Instruction files are _pointers_; co-packaged documentation is the _pointed-at content_. Without CoDoc, an instruction file that wants to ground the agent in a library's API can only point at a URL — inheriting the version-mismatch, availability, and determinism problems of Section 10.6. With CoDoc, the same instruction file can point out to the agent that all software libraries have co-packaged documentation alongside the library code within the same distributable artifact. CoDoc scales elegantly and avoids the hardcoding of URLs anywhere in a software engineering project.
 This is exactly the two-tier discovery model defined in Section 8.5: auto-discovery of `docs/` directories as the primary mechanism, instruction-file integration as the supplementary channel.
 
-### 3.4 Summary
+### 3.5 Two Boxes or One Box
 
-| Convention                                 | AI-optimized format                    | Version-matched            | Offline-capable | Maintained at the source  |
-| ------------------------------------------ | -------------------------------------- | -------------------------- | --------------- | ------------------------- |
-| `llms.txt`                                 | Yes                                    | Not guaranteed             | No              | Yes                       |
-| Hosted intermediaries (Context7, DeepWiki) | Yes                                    | Sometimes (indexed version)| No              | No (third party)          |
-| Instruction files (`AGENTS.md`, etc.)      | N/A — instructions, not documentation  | N/A                        | Yes             | N/A (consumer-authored)   |
-| **CoDoc**                                  | Yes                                    | Yes                        | Yes             | Yes                       |
+The question of whether documentation belongs in the package at all predates AI coding agents, and its original answer reveals how completely the consumer has changed. In 2020, a library author asked on Stack Overflow whether published npm packages should contain a `docs/` directory. The representative response was negative: it increases package size, and "nobody looks for documentation in node_modules." That reasoning was sound for a human-centric ecosystem. Humans browse documentation on the web, so documentation inside the package was dead weight. As argued in Section 2.1, the primary documentation consumer is changing, and the answer is changing with it.
 
-No existing convention delivers version-matched, AI-optimized documentation _inside the package artifact_. This specific combination is CoDoc's contribution.
+The first signs of that change surfaced informally. In July 2025, a Hacker News commenter, gorbypark, described the very behavior the 2020 answer had dismissed: when stuck, Claude Code would fall back to reading a library's type definitions in `node_modules`. The comment went further: _"If we had `node_modules/<package_name>/llms.txt` (or the equivalent for other package managers in other languages) as a standard it could be pretty powerful I think. It could also be handled at the registry level, but I kind of like the idea of it being shipped (and thus easily versioned) in the library itself."_ The remark anticipates CoDoc's core commitments, namely a standard location inside the package, applicability across package ecosystems, and version matching by co-packaging. Having weighed a registry-level alternative, it leans toward the library itself. But it remained a passing comment in a discussion thread about Google's AI Overviews rather than a proposal. The idea was in the air. When it materialized, it did so in two forms at once.
+
+Late 2025 saw the first npm libraries ship agent-consumable documentation through the registry. Instead of converging on a single logistics model, the ecosystem split immediately into two:
+
+- **Two boxes (a dedicated documentation package).** gunshi publishes [`@gunshi/docs`](https://www.npmjs.com/package/@gunshi/docs); byethrow publishes [`@praha/byethrow-docs`](https://www.npmjs.com/package/@praha/byethrow-docs). Both require consumers to perform a second install per library and to keep the documentation package's version manually aligned with the library's.
+- **One box (documentation inside the library package).** Bun ships its documentation as Markdown inside the [`bun-types`](https://www.npmjs.com/package/bun-types) package and scaffolds a `CLAUDE.md` pointing at it in `bun init` projects. Next.js 16.2 bundles its full documentation as MDX at `node_modules/next/dist/docs/`, ships an `AGENTS.md` in `create-next-app` by default, and provides a codemod (`npx @next/codemod@latest agents-md`) for existing projects.
+
+The two models are not interchangeable packaging preferences: they place the burden of version matching in different hands. The earliest publicly available proposition known to the authors for delivering agent-consumable documentation through the package registry — and the split's clearest articulation — was published by Ryotaru Kimura in December 2025, while the split was already under way. The authors became aware of it when starting the work on CoDocBench (Section 2.3). After walking through the documentation-delivery options of the AI era (RAG, web search, `llms.txt`, and MCP servers), the post concludes, correctly, that the most effective delivery mechanism is local, version-controlled documentation distributed through the package registry itself. The proposition, however, hedges at the decisive point: _"I propose that library authors bundle documentation with their npm package, or provide a dedicated documentation package like `@foo/docs`."_ That "or" is the entire problem: it names both boxes and declines to choose. What reads as flexibility is, in effect, a refusal to choose between two logistics models with opposite version-drift properties.
+
+Left unresolved, the split risks **entrenching**, and the proposition illustrates the mechanism: by blessing two structurally different logistics models while specifying neither a location, nor an index, nor a discovery mechanism, it leaves every library to make — and advertise — its own choice. The implementations above show the cost: `bun-types/docs`, `next/dist/docs`, and the separate `@gunshi/docs` package are three incompatible conventions from three libraries, each requiring its own `AGENTS.md` or `CLAUDE.md` pointer, each demanding bespoke handling from every agent and tool. This is the same fragmentation the `@types/` era produced before first-party types won (Section 12), except that this time the ecosystem has the historical lesson in front of it and is repeating it anyway.
+
+Between the two logistics models, the choice should not be left open. A dedicated documentation package reintroduces the exact failure this paper rejects: a second install per library, manual version pinning per library, and silent drift when the two fall out of sync. This is the DefinitelyTyped trajectory replayed at the package level. The path of least resistance, one install, one version, everything in the box, is also the path history validates.
+
+A menu of options is not a standard. What the ecosystem needs is not a permissive way to ship documentation somehow, but a single normative way to do it: a predictable, specified location (Section 8.1) that enables automatic discovery across libraries and ecosystems (Section 8.5) and, once the convention is widespread enough to be represented in the training corpora of future models, removes the need for pointers altogether. An agent that expects documentation inside the package should become as unremarkable as an agent that expects type definitions there today.
+
+### 3.6 Summary
+
+| Convention                                  | AI-optimized format                   | Version-matched             | Offline-capable | Maintained at the source | Standardized in-package location |
+| ------------------------------------------- | ------------------------------------- | --------------------------- | --------------- | ------------------------ | -------------------------------- |
+| `llms.txt`                                  | Yes                                   | Not guaranteed              | No              | Yes                      | No (website)                     |
+| Hosted intermediaries (Context7, DeepWiki)  | Yes                                   | Sometimes (indexed version) | No              | No (third party)         | No                               |
+| ReadMe.LLM (Wijaya et al.)                  | Yes (structured, author-maintained)   | No (repository copy)        | No              | Yes                      | No (repository)                  |
+| Instruction files (`AGENTS.md`, etc.)       | N/A (instructions, not documentation) | N/A                         | Yes             | N/A (consumer-authored)  | N/A                              |
+| Two boxes or one box                            | Assumed (Markdown), unspecified | Consumer-pinned if two-box; structural only if bundled | Yes | Yes | No (two logistics models, no location specified) |
+| **CoDoc**                                   | Yes                                   | Yes                         | Yes             | Yes                      | Yes                              |
+
+The early npm adopters show that registry delivery works. They also show the cost of leaving the two-boxes-or-one-box choice open: the ecosystem is fragmenting along exactly the options a permissive proposition permits. The idea was already in the air, first as an informal remark, then as a live split between two logistics models. What remains missing is a single logistics model with a standardized location and discovery mechanism that agents can rely on across libraries and ecosystems. CoDoc proposes that consolidation: a normative, cross-ecosystem standard built around one box. To the authors' knowledge, this paper is the first to formalize it.
+
+> **A note of thanks.** The authors wish to thank and congratulate everyone who has moved this space forward.
 
 ---
 
@@ -244,7 +279,7 @@ Skills (pre-written prompt expansions) inject multi-step workflows when triggere
 - **Too rigid for contextual work.** Library usage is deeply contextual — sometimes the agent needs one API doc, sometimes five; sometimes examples, sometimes just types. A fixed workflow template cannot anticipate this.
 - **Tool-specific.** Each AI tool has its own skill/template system. Files work everywhere.
 - **Decentralized and duplicative.** Skills and prompt templates are typically authored by individual teams or companies independently, leading to redundant efforts across the ecosystem. Multiple organizations end up writing overlapping instructions for the same library, each with slightly different interpretations and quality levels. Worse, these community-maintained templates have no built-in mechanism to stay synchronized with the library they describe — when the library ships a new version with API changes, the scattered skills and templates across dozens of teams go stale silently. Co-packaged documentation eliminates this duplication by placing the authoritative instructions at the source: the library author maintains one set of docs, and every consumer receives it automatically on install.
-- **Probabilistic retrieval is not engineering.** Documentation retrieval should not be left to probability. When an agent fails to trigger a skill, or uses it incorrectly, the resulting error compounds: the agent generates incorrect code, the developer corrects it, the agent misinterprets the correction, and the cycle spirals. Co-packaged documentation eliminates the dice roll entirely - the docs are there deterministically, alongside the code they describe. Engineering demands certainty of access, not optimistic hope that correct retrieval will happen.
+- **Probabilistic retrieval is not engineering.** Documentation retrieval should not be left to probability. When an agent fails to trigger a skill, or uses it incorrectly, the resulting error compounds: the agent generates incorrect code, the developer corrects it, the agent misinterprets the correction, and the cycle spirals. Co-packaged documentation eliminates the dice roll entirely - the docs are there deterministically, alongside the code they describe. Engineering demands certainty of access, not optimistic hope that correct retrieval will happen. This is no longer only a theoretical argument: in Vercel's Next.js agent evaluations, a documentation skill was never invoked in 56% of eval cases — matching the no-documentation baseline — while always-available bundled documentation achieved a 100% pass rate (Section 2.3).
 - **Computationally expensive.** Running an AI agent is not free. Every failed generation, every correction cycle, every re-prompt consumes tokens — and tokens cost money. Skills that sometimes fire and sometimes don't create a tax on every interaction: the agent burns compute attempting to determine relevance, potentially retrieves the wrong skill, generates incorrect output, and then must be corrected. In the case of correct skill identification, the probabilistic nature of AI models does not guarantee successful retrieval of relevant documentation creating unnecessary overhead costs.
   Co-packaged documentation, read directly from the filesystem, is the cheapest possible retrieval mechanism. Why make software engineering more expensive than it needs to be by introducing probabilistic middleware between the agent and the knowledge it requires?
 - **Distribution and logistics repeat history.** Who maintains the skills? Who distributes them? Who ensures they stay current across versions? This is the DefinitelyTyped story replaying in real time. The TypeScript community learned — painfully, over years — that community-maintained type definitions maintained separately from the library source inevitably drift, decay, and fragment. Skills and prompt templates face the identical fate: scattered across repositories, maintained by volunteers with varying commitment, silently stale when the library ships a breaking change. The ecosystem already lived through this with `@types/` packages. Co-packaged documentation is the lesson learned: ship it at the source, version it with the code, and eliminate the logistical nightmare of distributed, decoupled maintenance.
@@ -476,7 +511,7 @@ But even with perfect browsing, co-packaged documentation wins on properties tha
 
 - **Version match.** A browsing agent finds the documentation the library's website currently hosts, this is typically the latest release. Co-packaged documentation describes the exact version installed in the project, which in practice is often not the latest.
 - **Offline and air-gapped use.** Secure enterprise networks, regulated environments have no reliable internet access. Local files work everywhere the installed package works.
-- **Latency.** Every web fetch is a network round trip involving DNS, TLS, page rendering, and HTML parsing. A local file read is effectively instant and agents perform hundreds of reads per session.
+- **Latency.** Every web fetch is a network round trip involving DNS, TLS, page rendering, and HTML parsing. A local file read is effectively instant and agents may perform up to hundreds of reads per session.
 - **Determinism.** Websites change between requests: content is reorganized, redesigned, A/B tested. The same query can return different content on different days. A co-packaged file is byte-identical for every agent, every session, every time.
 - **Corporate network restrictions.** Documentation portals behind authentication, SSO, or VPNs are unreachable to a browsing agent. Local files have no such gate.
 - **Anti-bot controls.** Even publicly available documentation may sit behind CAPTCHAs, JavaScript challenges, bot detection, or aggressive rate limits. These controls are reasonable defenses for a website but can block or degrade an agent's access. A local file does not need to prove that its reader is human.
@@ -530,6 +565,8 @@ This paper proposes a new industry standard. For the standard to achieve the eco
 3. **Tool vendor alignment.** As the specification stabilizes, AI tool vendors implement auto-discovery of `docs/` directories, reducing the dependency on instruction file conventions and providing the agent-side infrastructure for the standard.
 4. **Registry integration.** Package registries adopt metadata signals for co-packaged documentation, providing visibility and incentives for adoption.
 
+A final stage follows from ubiquity: once co-packaged documentation is conventional, it is represented in the training corpora of future models, and agents will expect documentation inside the package without any instruction-file pointer at all. `AGENTS.md`-style pointers (Section 3.4) are transitional scaffolding; the standard itself is the destination.
+
 The absence of a governance body is a known weakness at this stage. We address it directly rather than assuming adoption will occur organically.
 
 ### 11.2 For Library Authors
@@ -580,6 +617,8 @@ Over time, library authors began shipping types directly in their packages (`"ty
 
 **AI documentation is on the same trajectory.** Today, AI-optimized docs are rare and, where they exist, are maintained separately. Tomorrow, they will be expected to ship with the package. The Think Inside the Box Principle simply names this inevitable evolution and proposes a standard to accelerate it.
 
+The npm ecosystem already exhibits both stages of this trajectory side by side (Section 3.5). Dedicated documentation packages (`@gunshi/docs`, `@praha/byethrow-docs`) correspond to the `@types/` era — separately installed, separately pinned, prone to silent drift — while bundled documentation (`bun-types`, `next`, Design Factory) corresponds to first-party bundled types. History favors bundling because it makes the version match structural and places the maintenance burden at the source, where the knowledge lives. Documentation is following the same path; the sooner a standard consolidates the one-box camp, the less fragmentation the ecosystem accumulates along the way.
+
 ---
 
 ## 13. Conclusion
@@ -617,6 +656,14 @@ This paper proposes that standard. We invite library authors, package registry m
 14. DeepWiki — [Cognition AI: AI-generated documentation wikis for public code repositories](https://deepwiki.com/)
 15. GitHub Copilot — [Adding repository custom instructions for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
 16. Cursor — [Cursor Rules: project-level instructions for the Cursor AI code editor](https://cursor.com/docs/rules)
+17. K. Seweryn — [Should published npm packages contain docs directory? (Stack Overflow, 2020)](https://stackoverflow.com/questions/63363828/should-published-npm-packages-contain-docs-directory)
+18. R. Kimura — [Publish Docs on npm: LLM-Friendly Documentation Delivery (2025)](https://ryoppippi.com/blog/2025-12-14-publish-docs-on-npm-en/)
+19. J. Gao, T. Neutkens — [Next.js 16.2: AI Improvements (2026)](https://nextjs.org/blog/next-16-2-ai)
+20. J. Gao — [AGENTS.md Outperforms Skills in Our Agent Evals (Vercel, 2026)](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
+21. Vercel — [Next.js Evals: Success Rate with AGENTS.md](https://nextjs.org/evals)
+22. S. Wijaya, J. Bolano, A. Gomez Soteres, S. Kode, Y. Huang, A. Sahai — [ReadMe.LLM: A Framework to Help LLMs Understand Your Library (arXiv:2504.09798, 2025)](https://arxiv.org/abs/2504.09798)
+23. gorbypark — [Comment in the thread "AI overviews cause massive drop in search clicks" (Hacker News, 2025)](https://news.ycombinator.com/item?id=44669111)
+24. J. Sumner — [Include `docs/` folder in bun-types (oven-sh/bun#15398, 2024)](https://github.com/oven-sh/bun/pull/15398)
 
 ---
 

@@ -1,0 +1,361 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="Think Inside the Box · Adoption & Endorsers">
+	<main class="adoption-page">
+
+		<!-- ═══════════ Hero ═══════════ -->
+		<section class="band band-light hero-band">
+			<div class="wrap center">
+				<p class="eyebrow">Community</p>
+				<h1 class="h-xl">Who's <span class="grad">in the box?</span></h1>
+				<p class="sub">
+					Adoption and endorsement are how a proposal becomes a standard. These two lists
+					track both — and they're just getting started.
+				</p>
+				<div class="cta-row">
+					<a class="btn btn-ghost" href="#adoption"><span>Adoption</span></a>
+					<a class="btn btn-ghost" href="#endorsers"><span>Endorsers</span></a>
+				</div>
+			</div>
+		</section>
+
+		<!-- ═══════════ Adoption ═══════════ -->
+		<section class="band band-dark" id="adoption">
+			<div class="wrap">
+				<p class="eyebrow">Adoption</p>
+				<h2 class="h-xl">Libraries shipping docs <span class="grad">in the box.</span></h2>
+				<p class="sub">
+					These packages ship co-packaged, AI-ready documentation alongside their code. The
+					standard is in its community RFC phase, so this list is just getting started —
+					yours could be the first.
+				</p>
+				<table class="list-table">
+					<thead>
+						<tr>
+							<th>Project</th>
+							<th>Ecosystem</th>
+							<th>What ships in the box</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="placeholder">
+							<td>Your project here — be the first.</td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="cta-row">
+					<a
+						class="btn btn-primary"
+						href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper/pulls"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span>List your project</span>
+					</a>
+					<a
+						class="btn btn-ghost"
+						href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper/discussions/new?category=show-and-tell"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span>Share an adoption report</span>
+					</a>
+				</div>
+				<p class="note">
+					Projects are listed by pull request — add a row to the{' '}
+					<a
+						href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper#adoption"
+						target="_blank"
+						rel="noopener noreferrer"
+					>Adoption table in the README</a>.
+				</p>
+			</div>
+		</section>
+
+		<!-- ═══════════ Endorsers ═══════════ -->
+		<section class="band band-light" id="endorsers">
+			<div class="wrap">
+				<p class="eyebrow">Endorsers</p>
+				<h2 class="h-xl">People backing <span class="grad">the proposal.</span></h2>
+				<p class="sub">
+					Public support helps the proposal reach the critical mass a standard needs.
+					No endorsements yet — add your voice.
+				</p>
+				<div class="empty-state">
+					<p>Your name here — be the first to endorse.</p>
+				</div>
+				<div class="cta-row">
+					<a
+						class="btn btn-primary"
+						href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper/discussions/52"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span>Endorse the proposal</span>
+					</a>
+				</div>
+				<p class="note">
+					To appear on this list, open a pull request adding your name, role, and
+					affiliation to the{' '}
+					<a
+						href="https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper#endorsers"
+						target="_blank"
+						rel="noopener noreferrer"
+					>Endorsers list in the README</a>.
+				</p>
+			</div>
+		</section>
+
+	</main>
+</Layout>
+
+<style>
+	/* ── Palette & shared tokens (mirrors overview page) ────── */
+	.adoption-page {
+		--g1: #0ea5e9;
+		--g2: #6366f1;
+		--g3: #d946ef;
+		--band-bg: var(--surface-soft);
+		--band-text: var(--text);
+		--band-muted: var(--text-muted);
+		--band-border: var(--border);
+	}
+
+	:global(:root[data-theme='dark']) .adoption-page {
+		--band-bg: #070b16;
+		--band-text: #e6edf7;
+		--band-muted: #96a3b8;
+		--band-border: rgba(148, 163, 184, 0.18);
+	}
+
+	.band {
+		padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+		scroll-margin-top: 56px;
+	}
+
+	.hero-band {
+		padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+	}
+
+	.band-light {
+		background: var(--bg);
+		color: var(--text);
+	}
+
+	.band-dark {
+		background:
+			radial-gradient(55% 45% at 12% 0%, rgba(14, 165, 233, 0.16), transparent 60%),
+			radial-gradient(50% 45% at 88% 100%, rgba(168, 85, 247, 0.14), transparent 62%),
+			var(--band-bg);
+		color: var(--band-text);
+		border-top: 1px solid var(--band-border);
+		border-bottom: 1px solid var(--band-border);
+	}
+
+	.wrap {
+		max-width: 1080px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	.center {
+		text-align: center;
+	}
+
+	/* ── Typography ─────────────────────────────────────────── */
+	.eyebrow {
+		margin: 0 0 0.9rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		width: fit-content;
+	}
+
+	.center .eyebrow {
+		margin-inline: auto;
+	}
+
+	.h-xl {
+		margin: 0;
+		font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+		font-weight: 800;
+		text-wrap: balance;
+	}
+
+	.sub {
+		margin: 1.25rem 0 0;
+		font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+		line-height: 1.75;
+		max-width: 62ch;
+	}
+
+	.center .sub {
+		margin-inline: auto;
+	}
+
+	.band-light .sub {
+		color: var(--text-muted);
+	}
+
+	.band-dark .sub {
+		color: var(--band-muted);
+	}
+
+	.grad {
+		background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	/* ── Buttons ────────────────────────────────────────────── */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.85rem 1.6rem;
+		border-radius: 999px;
+		font-weight: 600;
+		font-size: 0.98rem;
+		text-decoration: none;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, var(--g1), var(--g2) 55%, var(--g3));
+		color: #ffffff;
+		box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
+	}
+
+	.btn-primary:hover {
+		box-shadow: 0 14px 30px rgba(79, 70, 229, 0.45);
+	}
+
+	.btn-ghost {
+		border: 1px solid var(--border);
+		color: var(--text);
+		background: var(--surface);
+	}
+
+	.band-dark .btn-ghost {
+		background: transparent;
+		border-color: var(--band-border);
+		color: var(--band-text);
+	}
+
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 2.2rem;
+	}
+
+	.center .cta-row {
+		justify-content: center;
+	}
+
+	/* ── Adopters table ─────────────────────────────────────── */
+	.list-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 2.75rem;
+		font-size: 0.95rem;
+		border-radius: 12px;
+		overflow: hidden;
+		border: 1px solid var(--band-border);
+	}
+
+	.list-table thead {
+		background: var(--band-bg);
+	}
+
+	.list-table th {
+		padding: 0.8rem 1.1rem;
+		text-align: left;
+		font-weight: 600;
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--band-muted);
+		border-bottom: 1px solid var(--band-border);
+	}
+
+	.list-table td {
+		padding: 0.9rem 1.1rem;
+		border-bottom: 1px solid var(--band-border);
+		color: var(--band-text);
+	}
+
+	.list-table tr:last-child td {
+		border-bottom: none;
+	}
+
+	.list-table .placeholder td {
+		color: var(--band-muted);
+		font-style: italic;
+	}
+
+	/* ── Endorsers empty state ──────────────────────────────── */
+	.empty-state {
+		margin-top: 2.75rem;
+		border: 1px dashed var(--border);
+		border-radius: 16px;
+		padding: 2.5rem 1.5rem;
+		text-align: center;
+	}
+
+	.empty-state p {
+		margin: 0;
+		color: var(--text-muted);
+		font-style: italic;
+	}
+
+	/* ── Footnote ───────────────────────────────────────────── */
+	.note {
+		margin-top: 1.75rem;
+		font-size: 0.9rem;
+		line-height: 1.6;
+	}
+
+	.band-light .note {
+		color: var(--text-muted);
+	}
+
+	.band-dark .note {
+		color: var(--band-muted);
+	}
+
+	.note a {
+		color: var(--accent);
+		text-decoration: none;
+		font-weight: 500;
+	}
+
+	.note a:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 640px) {
+		.cta-row .btn {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

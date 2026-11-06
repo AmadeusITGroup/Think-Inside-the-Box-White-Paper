@@ -71,6 +71,10 @@ This follows the TypeScript trajectory:
 
 We welcome feedback, critiques, and adoption reports. This is a community RFC — help us refine the specification and build its future before formal standardization.
 
+## License
+
+This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — see [LICENSE](LICENSE) for the full license text.
+
 ---
 
 **Authors:** AI Documentation Working Group (Andres, Andrea)  

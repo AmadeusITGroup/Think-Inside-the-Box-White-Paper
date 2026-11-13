@@ -71,6 +71,8 @@ This follows the TypeScript trajectory:
 
 We welcome feedback, critiques, and adoption reports. This is a community RFC — help us refine the specification and build its future before formal standardization.
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes, share adoption reports, and work on the website.
+
 ---
 
 **Authors:** AI Documentation Working Group (Andres, Andrea)  

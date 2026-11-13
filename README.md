@@ -67,6 +67,24 @@ This follows the TypeScript trajectory:
 
 **For developers:** Request co-packaged documentation from the libraries you use
 
+## Adoption
+
+The CoDoc standard is in its community RFC phase, and this list is just getting started.
+
+**Shipping co-packaged, AI-ready docs in your package?** Open a pull request to add your project to the list below, or share an adoption report in [Show and tell](https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper/discussions/new?category=show-and-tell).
+
+| Project | Ecosystem | What ships in the box |
+| ------- | --------- | --------------------- |
+| _Your project here — be the first._ | | |
+
+## Endorsers
+
+Public support helps the proposal reach the critical mass a standard needs.
+
+**Want to endorse?** Comment on the [endorsement discussion](https://github.com/AmadeusITGroup/Think-Inside-the-Box-White-Paper/discussions/52) or open a pull request adding your name, role, and affiliation below.
+
+- _Your name here — be the first to endorse._
+
 ## Contributing
 
 We welcome feedback, critiques, and adoption reports. This is a community RFC — help us refine the specification and build its future before formal standardization.

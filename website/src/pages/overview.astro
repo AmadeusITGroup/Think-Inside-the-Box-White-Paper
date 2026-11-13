@@ -695,6 +695,51 @@ const base = import.meta.env.BASE_URL;
 			</div>
 		</section>
 
+		<!-- ═══════════ Adoption & Endorsers ═══════════ -->
+		<section class="band band-community">
+			<div class="wrap center">
+				<p class="eyebrow">Who's In</p>
+				<h2 class="h-xl">Be part of the <span class="grad">first wave.</span></h2>
+				<p class="sub">
+					The standard is in its community RFC phase, and the adoption and endorsement lists
+					are just getting started. Here's how to get your name in the box.
+				</p>
+				<div class="cards community-cards">
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="m12 3 8 4v10l-8 4-8-4V7l8-4Z" />
+								<path d="m4 7 8 4 8-4M12 11v10" />
+							</svg>
+						</div>
+						<h3>Adoption</h3>
+						<p>
+							Libraries shipping co-packaged, AI-ready docs alongside their code. No public
+							adopters yet — yours could be the first.
+						</p>
+						<a class="card-cta" href={`${base}adoption#adoption`}>
+							See adopters &amp; get listed →
+						</a>
+					</div>
+					<div class="card">
+						<div class="icon-badge">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+								<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z" />
+							</svg>
+						</div>
+						<h3>Endorsers</h3>
+						<p>
+							People and organizations publicly supporting the proposal. No endorsements yet —
+							add your voice.
+						</p>
+						<a class="card-cta" href={`${base}adoption#endorsers`}>
+							See endorsers &amp; add your voice →
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<!-- ═══════════ Call to action ═══════════ -->
 		<section class="band band-dark">
 			<div class="wrap center">
@@ -762,7 +807,7 @@ const base = import.meta.env.BASE_URL;
 						View on GitHub
 					</a>
 				</div>
-				<p class="foot">© 2026 AI Documentation Working Group · <em>Think Inside the Box</em> · v1.0</p>
+				<p class="foot">© 2026 AI Documentation Working Group · <em>Think Inside the Box</em> · v1.2</p>
 			</div>
 		</section>
 
@@ -1110,6 +1155,43 @@ const base = import.meta.env.BASE_URL;
 			radial-gradient(48% 40% at 88% 8%, color-mix(in srgb, var(--g1) 10%, transparent), transparent 62%),
 			color-mix(in srgb, var(--g2) 5%, var(--bg));
 		color: var(--text);
+	}
+
+	/* ── Community band (adoption & endorsers) ─────────────── */
+	.band-community {
+		background:
+			radial-gradient(48% 40% at 12% 92%, color-mix(in srgb, var(--g3) 9%, transparent), transparent 62%),
+			color-mix(in srgb, var(--g2) 5%, var(--bg));
+		color: var(--text);
+		border-top: 1px solid var(--border);
+	}
+
+	.band-community .card {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+	}
+
+	.band-community .card p {
+		color: var(--text-muted);
+	}
+
+	.community-cards {
+		max-width: 780px;
+		margin-inline: auto;
+	}
+
+	.card-cta {
+		display: inline-block;
+		margin-top: 1rem;
+		font-weight: 600;
+		font-size: 0.95rem;
+		color: var(--g2);
+		text-decoration: none;
+	}
+
+	.card-cta:hover {
+		text-decoration: underline;
 	}
 
 	.newdev-grid {

@@ -47,10 +47,10 @@ Design Factory design system ships a complete AI documentation system in its npm
 The complete white paper is available at [white-paper.md](white-paper.md).
 
 Key sections:
-- [Section 3](white-paper.md#3-the-think-inside-the-box-principle) — The core principle
-- [Section 4](white-paper.md#4-design-factory-a-reference-implementation) — Design Factory implementation
-- [Section 7](white-paper.md#7-proposed-standard-co-packaged-documentation-codoc) — The CoDoc specification
-- [Section 8](white-paper.md#8-security-considerations) — Security and prompt injection risks
+- [Section 4](white-paper.md#4-the-think-inside-the-box-principle) — The core principle
+- [Section 5](white-paper.md#5-design-factory-a-reference-implementation) — Design Factory implementation
+- [Section 8](white-paper.md#8-proposed-standard-co-packaged-documentation-codoc) — The CoDoc specification
+- [Section 10](white-paper.md#10-security-considerations) — Security and prompt injection risks
 
 ## Historical Precedent
 

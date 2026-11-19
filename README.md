@@ -1,5 +1,7 @@
 # Think Inside the Box
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23369594.svg)](https://doi.org/10.5281/zenodo.23369594)
+
 > **Ship the docs in the box:** A proposal for co-packaging code and AI-optimized documentation as an industry standard.
 
 ## Overview

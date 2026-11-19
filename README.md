@@ -73,6 +73,10 @@ We welcome feedback, critiques, and adoption reports. This is a community RFC â€
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes, share adoption reports, and work on the website.
 
+## License
+
+This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) â€” see [LICENSE](LICENSE) for the full license text.
+
 ---
 
 **Authors:** AI Documentation Working Group (Andres, Andrea)  
